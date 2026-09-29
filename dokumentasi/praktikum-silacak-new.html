@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Praktikum SiLacak — BNSP Senior Programmer</title>
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --code-bg: #1e293b;
+  --code-text: #e2e8f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--gray-700);
+  background: var(--gray-50);
+}
+
+/* Layout */
+.layout { display: grid; grid-template-columns: 300px 1fr; min-height: 100vh; }
+.sidebar {
+  background: var(--gray-900);
+  color: #fff;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.sidebar-header { padding: 0 20px 20px; border-bottom: 1px solid #374151; }
+.sidebar-header h1 { font-size: 20px; color: #fff; margin-bottom: 4px; }
+.sidebar-header p { font-size: 12px; color: #9ca3af; }
+.sidebar nav { padding: 12px 0; }
+.sidebar nav a {
+  display: block;
+  padding: 10px 20px;
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.sidebar nav a:hover, .sidebar nav a.active {
+  background: #1f2937;
+  color: #fff;
+  border-left-color: var(--primary-light);
+}
+.sidebar nav .section-title {
+  padding: 16px 20px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.main { padding: 40px 48px; max-width: 1100px; }
+
+/* Header */
+.page-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+.page-header h1 { font-size: 32px; margin-bottom: 8px; color: #fff; }
+.page-header p { color: #dbeafe; font-size: 16px; }
+.page-header .badges { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Section */
+section {
+  background: #fff;
+  padding: 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+section h2 {
+  font-size: 24px;
+  color: var(--gray-900);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+section h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+  padding: 0 12px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+section h3 { font-size: 18px; color: var(--gray-900); margin: 24px 0 12px; }
+section h4 { font-size: 15px; color: var(--gray-700); margin: 16px 0 8px; }
+section p { margin-bottom: 12px; }
+section ul, section ol { margin: 12px 0 12px 24px; }
+section li { margin-bottom: 6px; }
+
+/* Meta info box */
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 20px 0;
+}
+.meta-box {
+  background: var(--gray-50);
+  padding: 16px;
+  border-radius: 8px;
+  border-left: 4px solid var(--primary-light);
+}
+.meta-box .label {
+  font-size: 11px;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.meta-box .value {
+  font-size: 14px;
+  color: var(--gray-900);
+  font-weight: 600;
+  margin-top: 4px;
+}
+.meta-box.success { border-left-color: var(--success); }
+.meta-box.warning { border-left-color: var(--warning); }
+.meta-box.danger { border-left-color: var(--danger); }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+th {
+  background: var(--gray-100);
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-900);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+td { padding: 12px; border-top: 1px solid var(--gray-200); vertical-align: top; }
+tr:hover td { background: var(--gray-50); }
+
+/* Code */
+code {
+  background: var(--gray-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--danger);
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 16px 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.6;
+  position: relative;
+}
+pre code { background: none; color: inherit; padding: 0; font-size: 13px; }
+pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 10px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+/* Callout */
+.callout {
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-left: 4px solid;
+  font-size: 14px;
+}
+.callout.info { background: #eff6ff; border-color: var(--primary-light); }
+.callout.success { background: #ecfdf5; border-color: var(--success); }
+.callout.warning { background: #fffbeb; border-color: var(--warning); }
+.callout.danger { background: #fef2f2; border-color: var(--danger); }
+.callout strong { display: block; margin-bottom: 4px; }
+.callout code { background: rgba(0,0,0,0.05); }
+
+/* Steps */
+.steps {
+  counter-reset: step;
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+.steps li {
+  position: relative;
+  padding: 12px 0 12px 50px;
+  border-left: 2px solid var(--gray-200);
+  margin-left: 16px;
+  margin-bottom: 0;
+}
+.steps li::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  left: -18px;
+  top: 8px;
+  width: 34px;
+  height: 34px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+}
+.steps li:last-child { border-left-color: transparent; }
+.steps li h4 { margin-top: 0; margin-bottom: 8px; font-size: 15px; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 24px;
+  color: var(--gray-500);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main { padding: 24px; }
+  section { padding: 20px; }
+}
+
+@media print {
+  .sidebar { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  section { box-shadow: none; border: 1px solid var(--gray-200); page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>🧪 Praktikum SiLacak</h1>
+      <p>8 Praktikum BNSP Senior Programmer</p>
+    </div>
+    <nav>
+      <div class="section-title">Persiapan</div>
+      <a href="#persiapan">Persiapan Awal</a>
+
+      <div class="section-title">Praktikum</div>
+      <a href="#p1">P1. Debugging Bug Berat</a>
+      <a href="#p2">P2. Profiling N+1 Query</a>
+      <a href="#p3">P3. Pengujian Integrasi</a>
+      <a href="#p4">P4. Stress Test Locust</a>
+      <a href="#p5">P5. Alert Notification</a>
+      <a href="#p6">P6. Pemantauan Resource</a>
+      <a href="#p7">P7. Logging Terstruktur</a>
+      <a href="#p8">P8. Perencanaan DWDM</a>
+
+      <div class="section-title">Penutup</div>
+      <a href="#troubleshooting">Troubleshooting</a>
+      <a href="#rekap">Rekapitulasi Bukti</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="page-header">
+      <h1>🧪 Praktikum SiLacak</h1>
+      <p>8 Praktikum Berbasis Kode Aplikasi SiLacak — Sertifikasi BNSP Senior Programmer</p>
+      <div class="badges">
+        <span class="badge">Laravel 11/12</span>
+        <span class="badge">MySQL 8</span>
+        <span class="badge">8 Praktikum</span>
+        <span class="badge">~6 Jam</span>
+      </div>
+    </div>
+
+    <!-- PERSIAPAN -->
+    <section id="persiapan">
+      <h2><span class="num">📋</span> Persiapan Awal</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box success">
+          <div class="label">Aplikasi</div>
+          <div class="value">SiLacak (sudah terinstall)</div>
+        </div>
+        <div class="meta-box success">
+          <div class="label">Database</div>
+          <div class="value">MySQL — silacak</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tools Tambahan</div>
+          <div class="value">Debugbar, Locust, Sentry</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">~6 jam (8 praktikum)</div>
+        </div>
+      </div>
+
+      <h3>Yang Harus Sudah Siap</h3>
+      <ol>
+        <li>Aplikasi SiLacak sudah running (<code>php artisan serve</code>)</li>
+        <li>Database <code>silacak</code> sudah terisi data seed</li>
+        <li>Login admin: <code>admin@silacak.test</code> / <code>password</code></li>
+        <li>Command Prompt (CMD) atau Git Bash terbuka</li>
+      </ol>
+
+      <div class="callout warning">
+        <strong>⚠️ PENTING — Baca Sebelum Mulai</strong>
+        Praktikum ini menggunakan konsep <strong>verifikasi bertahap</strong>. Setiap langkah harus diverifikasi sebelum lanjut ke langkah berikutnya. Jangan skip langkah verifikasi — banyak praktikan gagal karena asumsi "sudah benar" tanpa cek.
+      </div>
+
+      <h3>Buat Folder Bukti</h3>
+      <pre data-lang="cmd"><code>cd C:\DEVELOPMENT\Laravel\silacak-project\silacak
+mkdir bukti-praktikum</code></pre>
+
+      <div class="callout info">
+        <strong>💡 Cek Migration Duplikat (WAJIB sebelum P3)</strong>
+        Sebelum praktikum P3, pastikan tidak ada migration duplikat:
+        <pre style="background: #1e293b; color: #e2e8f0; margin-top: 8px;"><code>findstr /S /I "Schema::create" database\migrations\*.php</code></pre>
+        Kalau ada 2 file berbeda yang sama-sama buat tabel yang sama, itu penyebab error <code>table "X" already exists</code> di feature test.
+      </div>
+    </section>
+
+    <!-- P1: DEBUGGING -->
+    <section id="p1">
+      <h2><span class="num">P1</span> Debugging — Perbaikan Bug Berat 1,3 kg → 2 kg</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.025.02</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">30 menit</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tingkat</div>
+          <div class="value">Mudah</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Memperbaiki bug perhitungan berat yang dibulatkan ke bawah (<em>floor</em>). Bug asli: 1,3 kg ditagih 1 kg (kerugian Rp 2.700/paket).</p>
+
+      <h3>📖 Konteks Bug</h3>
+      <table>
+        <tr><th>Input</th><th>Hasil Lama (Bug)</th><th>Hasil Benar</th><th>Kerugian</th></tr>
+        <tr><td>1,3 kg</td><td>1 kg → Rp 9.000</td><td>2 kg → Rp 18.000</td><td>Rp 9.000</td></tr>
+        <tr><td>2,7 kg</td><td>2 kg → Rp 18.000</td><td>3 kg → Rp 27.000</td><td>Rp 9.000</td></tr>
+        <tr><td>4,1 kg</td><td>4 kg → Rp 36.000</td><td>5 kg → Rp 45.000</td><td>Rp 9.000</td></tr>
+      </table>
+
+      <div class="callout danger">
+        <strong>⚠️ Dampak Bisnis</strong>
+        Dengan 15.000 paket/hari dan asumsi 30% paket beratnya desimal, kerugian = 15.000 × 0,3 × Rp 9.000 = <strong>Rp 40.500.000/hari</strong>.
+      </div>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Buka Service OngkirService</h4>
+          <pre data-lang="cmd"><code>notepad app\Services\OngkirService.php</code></pre>
+        </li>
+
+        <li>
+          <h4>Amati Method <code>hitungBeratTagih()</code></h4>
+          <pre data-lang="php"><code>public function hitungBeratTagih(float $beratAktual, ?float $p = null, ?float $l = null, ?float $t = null): float
+{
+    $beratVolumetrik = 0;
+    if ($p && $l && $t) {
+        $beratVolumetrik = ($p * $l * $t) / 6000;
+    }
+    $beratMaks = max($beratAktual, $beratVolumetrik);
+    return (float) ceil($beratMaks);  // ← KUNCI: ceil() bukan floor()
+}</code></pre>
+          <p>Kata kunci perbaikan: <code>ceil()</code> (pembulatan ke atas), bukan <code>floor()</code> atau <code>(int)</code>.</p>
+        </li>
+
+        <li>
+          <h4>Buat Test Script untuk Verifikasi</h4>
+          <pre data-lang="cmd"><code>php artisan tinker</code></pre>
+          <p>Di dalam Tinker, jalankan:</p>
+          <pre data-lang="php"><code>$s = new App\Services\OngkirService();
+echo $s->hitungBeratTagih(1.3);  // Output: 2
+echo $s->hitungBeratTagih(2.7);  // Output: 3
+echo $s->hitungBeratTagih(4.1);  // Output: 5
+echo $s->hitungBeratTagih(1.0);  // Output: 1
+echo $s->hitungBeratTagih(0.5);  // Output: 1</code></pre>
+          <p>Ketik <code>exit</code> untuk keluar Tinker.</p>
+        </li>
+
+        <li>
+          <h4>Test Volumetrik</h4>
+          <p>Test berat volumetrik (dimensi lebih dominan):</p>
+          <pre data-lang="php"><code>// 3 kg aktual, dimensi 40×30×20 cm → volumetrik = 4 kg
+echo $s->hitungBeratTagih(3, 40, 30, 20);  // Output: 4
+
+// 2 kg aktual, dimensi 10×10×10 cm → volumetrik = 0.17 kg
+echo $s->hitungBeratTagih(2, 10, 10, 10);  // Output: 2</code></pre>
+        </li>
+
+        <li>
+          <h4>Simpan Output Bukti</h4>
+          <pre data-lang="cmd"><code>php artisan tinker > bukti-praktikum\p1-debugging.txt 2>&1
+REM Ketik kode verifikasi di atas, lalu exit</code></pre>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        Semua berat aktual dan volumetrik dibulatkan ke atas dengan benar. Bukti tersimpan di <code>bukti-praktikum/p1-debugging.txt</code>.
+      </div>
+
+      <div class="callout info">
+        <strong>💡 Konsistensi Format Nomor Resi</strong>
+        Model <code>Resi::buatNomorResi()</code> menghasilkan format <code>SLC-YYYYMMDD-XXXX</code>. Pastikan factory juga pakai format yang sama:
+        <pre style="background: #1e293b; color: #e2e8f0; margin-top: 8px;"><code>'nomor_resi' => 'SLC-' . now()->format('Ymd') . '-' . str_pad($seq, 4, '0', STR_PAD_LEFT),</code></pre>
+        Ini penting untuk konsistensi data dummy vs data production.
+      </div>
+
+      <h3>📝 Contoh Laporan Debugging</h3>
+      <table>
+        <tr><th>Item</th><th>Keterangan</th></tr>
+        <tr><td><strong>Bug</strong></td><td>Berat 1,3 kg ditagih 1 kg</td></tr>
+        <tr><td><strong>Lokasi</strong></td><td><code>app/Services/OngkirService.php:15</code></td></tr>
+        <tr><td><strong>Akar Masalah</strong></td><td>Menggunakan <code>floor()</code> alih-alih <code>ceil()</code></td></tr>
+        <tr><td><strong>Perbaikan</strong></td><td>Ganti ke <code>ceil()</code></td></tr>
+        <tr><td><strong>Verifikasi</strong></td><td>Test 5 skenario di Tinker, semua benar</td></tr>
+        <tr><td><strong>Dampak Bisnis</strong></td><td>Mencegah kerugian Rp 40,5 juta/hari</td></tr>
+      </table>
+    </section>
+
+    <!-- P2: PROFILING -->
+    <section id="p2">
+      <h2><span class="num">P2</span> Profiling — Debugbar & N+1 Query</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.031.01</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">45 menit</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tingkat</div>
+          <div class="value">Menengah</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Mengukur performa query database dan mengeliminasi <strong>N+1 Query Problem</strong> menggunakan Laravel Debugbar.</p>
+
+      <h3>📖 N+1 Query Problem</h3>
+      <table>
+        <tr><th>Skenario</th><th>Jumlah Query</th><th>Durasi</th></tr>
+        <tr><td>Tanpa eager loading (N+1)</td><td>21 query</td><td>350–500 ms</td></tr>
+        <tr><td>Dengan <code>with()</code></td><td>3 query</td><td>80–110 ms</td></tr>
+        <tr><td>Dengan <code>with()</code> + indeks</td><td>3 query</td><td>&lt; 60 ms</td></tr>
+      </table>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Install Laravel Debugbar</h4>
+          <pre data-lang="cmd"><code>composer require barryvdh/laravel-debugbar --dev</code></pre>
+          <p>Debugbar hanya untuk development (<code>--dev</code>), tidak akan ikut ke production.</p>
+        </li>
+
+        <li>
+          <h4>Buka Halaman Daftar Resi</h4>
+          <p>Di browser, buka <strong>http://localhost:8000/resi</strong> dan perhatikan <strong>Debugbar di bagian bawah</strong>. Catat:</p>
+          <ul>
+            <li><strong>Queries</strong> — jumlah query</li>
+            <li><strong>Timeline</strong> — durasi eksekusi</li>
+          </ul>
+        </li>
+
+        <li>
+          <h4>Cek Kode Saat Ini (Sudah Benar)</h4>
+          <p>Buka <code>app\Http\Controllers\ResiController.php</code>:</p>
+          <pre data-lang="php"><code>public function index(Request $request)
+{
+    $resi = Resi::with(['pelanggan', 'cabangAsal', 'cabangTujuan', 'layanan'])  // ← EAGER LOADING
+        ->cari($request->query('q'))
+        ->status($request->query('status'))
+        ->orderByDesc('created_at')
+        ->paginate(15)
+        ->withQueryString();
+
+    return view('resi.index', compact('resi'));
+}</code></pre>
+          <div class="callout success">
+            <strong>✅ Kode Ini Sudah Benar</strong>
+            <code>with(['pelanggan', 'cabangAsal', ...])</code> mencegah N+1.
+          </div>
+        </li>
+
+        <li>
+          <h4>Simulasi N+1 (Bandingkan)</h4>
+          <p>Buat controller temporary untuk simulasi. Buka <code>routes/web.php</code>, tambahkan:</p>
+          <pre data-lang="php"><code>Route::get('/debug-nplus1', function () {
+    // TANPA eager loading — akan jadi N+1
+    $resi = App\Models\Resi::limit(10)->get();
+
+    foreach ($resi as $r) {
+        echo $r->pelanggan->nama . '<br>';  // Setiap iterasi query ke DB
+    }
+
+    return 'Lihat Debugbar di bawah — perhatikan jumlah query';
+});</code></pre>
+          <p>Buka <strong>http://localhost:8000/debug-nplus1</strong>. Perhatikan Debugbar menunjukkan <strong>11 query</strong> (1 untuk resi + 10 untuk pelanggan).</p>
+
+          <div class="callout warning">
+            <strong>⚠️ Kalau Query Cuma 2, Bukan 11?</strong>
+            Berarti data di tabel <code>resi</code> kamu cuma 1 baris. Generate dulu 10 data:
+            <pre style="background: #1e293b; color: #e2e8f0; margin-top: 8px;"><code>php artisan tinker
+App\Models\Resi::factory(10)->create();
+exit</code></pre>
+            Kalau muncul error <code>Field 'X' doesn't have a default value</code>, berarti ada kolom NOT NULL yang belum diisi di factory. Lihat section Troubleshooting.
+          </div>
+        </li>
+
+        <li>
+          <h4>Perbaiki dengan Eager Loading</h4>
+          <pre data-lang="php"><code>Route::get('/debug-nplus1-fixed', function () {
+    // DENGAN eager loading — hanya 2 query
+    $resi = App\Models\Resi::with('pelanggan')->limit(10)->get();
+
+    foreach ($resi as $r) {
+        echo $r->pelanggan->nama . '<br>';
+    }
+
+    return 'Lihat Debugbar — hanya 2 query!';
+});</code></pre>
+          <p>Buka <strong>http://localhost:8000/debug-nplus1-fixed</strong>. Debugbar akan menunjukkan <strong>2 query</strong>.</p>
+        </li>
+
+        <li>
+          <h4>Cek Rencana Eksekusi (EXPLAIN)</h4>
+          <div class="callout danger">
+            <strong>❌ JANGAN tulis SQL mentah langsung di Tinker!</strong>
+            Kalau kamu tulis <code>EXPLAIN SELECT ...</code> langsung di Tinker, akan error:
+            <code>Parse error: Syntax error, unexpected T_STRING</code>.
+          </div>
+          <p>Yang benar, bungkus dengan <code>DB::select()</code>:</p>
+          <pre data-lang="php"><code>// Di Tinker
+DB::select("EXPLAIN SELECT * FROM resi WHERE nomor_resi LIKE 'SLC%'");</code></pre>
+          <p>Atau lewat MySQL CLI langsung:</p>
+          <pre data-lang="sql"><code>EXPLAIN SELECT * FROM resi WHERE nomor_resi LIKE 'SLC%';</code></pre>
+          <p>Perhatikan kolom <code>type</code>:</p>
+          <ul>
+            <li><code>ALL</code> = full table scan (buruk)</li>
+            <li><code>ref</code> / <code>range</code> = pakai indeks (baik)</li>
+          </ul>
+
+          <div class="callout info">
+            <strong>💡 Catatan EXPLAIN</strong>
+            Kalau data di tabel masih sedikit (&lt; 1000 baris), MySQL akan tetap <em>full scan</em> karena lebih cepat. Untuk melihat perbedaan index, generate 10.000 data dulu:
+            <pre style="background: #1e293b; color: #e2e8f0; margin-top: 8px;"><code>App\Models\Resi::factory(10000)->create();</code></pre>
+            Lalu bandingkan EXPLAIN sebelum dan sesudah <code>ALTER TABLE resi ADD INDEX idx_nomor (nomor_resi)</code>.
+          </div>
+        </li>
+
+        <li>
+          <h4>Simpan Screenshot Debugbar</h4>
+          <p>Screenshot halaman <code>/resi</code> dengan Debugbar terbuka. Simpan sebagai <code>bukti-praktikum/p2-debugbar.png</code>.</p>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        <ul>
+          <li>Screenshot Debugbar: 3 query, durasi &lt; 100ms</li>
+          <li>Bukti perbandingan: N+1 = 11 query vs Eager = 2 query</li>
+          <li>Hasil EXPLAIN: type=ref (pakai indeks) setelah ada index</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- P3: PENGUJIAN INTEGRASI -->
+    <section id="p3">
+      <h2><span class="num">P3</span> Pengujian Integrasi — Feature Test PHPUnit</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.034.02</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">60 menit</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tingkat</div>
+          <div class="value">Menengah</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Menulis <strong>Feature Test</strong> untuk menguji alur end-to-end pembuatan resi: dari HTTP request → validasi → service → database.</p>
+
+      <h3>📖 Perbedaan Unit vs Feature Test</h3>
+      <table>
+        <tr><th>Aspek</th><th>Unit Test</th><th>Feature Test</th></tr>
+        <tr><td><strong>Cakupan</strong></td><td>1 method</td><td>1 alur fitur lengkap</td></tr>
+        <tr><td><strong>HTTP Request</strong></td><td>Tidak</td><td>Ya (<code>$this->post()</code>)</td></tr>
+        <tr><td><strong>Database</strong></td><td>Tidak (mock)</td><td>Ya (refresh)</td></tr>
+        <tr><td><strong>Kecepatan</strong></td><td>Sangat cepat</td><td>Lebih lambat</td></tr>
+        <tr><td><strong>Contoh</strong></td><td>Test <code>ceil(1.3) == 2</code></td><td>Test POST /resi → tersimpan</td></tr>
+      </table>
+
+      <div class="callout warning">
+        <strong>⚠️ PENTING — Baca Dulu Sebelum Mulai</strong>
+        Banyak praktikan gagal di praktikum ini karena 3 hal:
+        <ol style="margin: 8px 0 0 20px;">
+          <li><strong>Migration duplikat</strong> — ada 2 file migration yang sama-sama buat tabel <code>cabang</code>. Error: <code>table "cabang" already exists</code>.</li>
+          <li><strong>Copy-paste dari browser</strong> — menyisipkan karakter tak terlihat (BOM/smart quotes). Error: <code>No tests found</code>.</li>
+          <li><strong>Anotasi <code>/** @test */</code> tidak terdeteksi</strong> di PHPUnit tertentu. Solusi: pakai prefix <code>test_</code>.</li>
+        </ol>
+        Solusi ada di Langkah 0, 1, dan 2 di bawah.
+      </div>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Langkah 0 — Cek Migration Duplikat (WAJIB)</h4>
+          <p>Sebelum bikin test, pastikan tidak ada migration duplikat. Jalankan:</p>
+          <pre data-lang="cmd"><code>findstr /S /I "Schema::create" database\migrations\*.php</code></pre>
+          <p>Perhatikan output. Kalau ada <strong>2 file berbeda</strong> yang sama-sama berisi <code>Schema::create('cabang', ...)</code>, itu penyebab error <code>table "cabang" already exists</code>.</p>
+          <div class="callout danger">
+            <strong>❌ Kalau Ada Duplikat</strong>
+            Hapus file migration yang duplikat (biasanya yang lebih baru), lalu jalankan:<br>
+            <code>php artisan migrate:fresh</code>
+          </div>
+        </li>
+
+        <li>
+          <h4>Langkah 1 — Buat File Feature Test</h4>
+          <pre data-lang="cmd"><code>php artisan make:test ResiFeatureTest</code></pre>
+          <p>File akan dibuat di <code>tests/Feature/ResiFeatureTest.php</code>.</p>
+        </li>
+
+        <li>
+          <h4>Langkah 2 — Isi Test Case (Ketik Manual, JANGAN Copy-Paste)</h4>
+          <div class="callout warning">
+            <strong>⚠️ JANGAN copy-paste dari browser!</strong>
+            Browser sering menyisipkan karakter tak terlihat yang membuat PHPUnit tidak bisa membaca file. <strong>Ketik ulang secara manual</strong> di VS Code.
+          </div>
+
+          <p><strong>Langkah 2a — Test Minimal Dulu (Verifikasi Deteksi)</strong></p>
+          <p>Isi file dengan versi paling minimal ini dulu:</p>
+          <pre data-lang="php"><code>&lt;?php
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+
+class ResiFeatureTest extends TestCase
+{
+    public function test_sederhana(): void
+    {
+        $this->assertTrue(true);
+    }
+}</code></pre>
+          <p>Simpan, lalu jalankan:</p>
+          <pre data-lang="cmd"><code>vendor\bin\phpunit --list-tests</code></pre>
+          <div class="callout success">
+            <strong>✅ Verifikasi</strong>
+            <code>ResiFeatureTest::test_sederhana</code> harus muncul di daftar. Kalau tidak muncul, jangan lanjut — ada masalah di environment (lihat Troubleshooting).
+          </div>
+
+          <p><strong>Langkah 2b — Tambahkan Setup Lengkap</strong></p>
+          <p>Setelah test minimal terdeteksi, ganti isi file dengan versi lengkap. <strong>Gunakan prefix <code>test_</code> pada nama method</strong> (jangan pakai anotasi <code>/** @test */</code> — lebih universal):</p>
+          <pre data-lang="php"><code>&lt;?php
+
+namespace Tests\Feature;
+
+use App\Models\User;
+use App\Models\Cabang;
+use App\Models\Pelanggan;
+use App\Models\Layanan;
+use App\Models\Resi;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class ResiFeatureTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private function seedBasicData(): array
+    {
+        $user = User::factory()->create();
+
+        $cabangAsal = Cabang::create([
+            'kode' => 'JKT',
+            'nama' => 'Jakarta',
+            'kota' => 'Jakarta',
+        ]);
+
+        $cabangTujuan = Cabang::create([
+            'kode' => 'BDG',
+            'nama' => 'Bandung',
+            'kota' => 'Bandung',
+        ]);
+
+        $pelanggan = Pelanggan::create([
+            'nama' => 'PT Maju Jaya',
+            'email' => 'maju@test.com',
+            'telepon' => '081234567890',
+            'is_member' => false,
+        ]);
+
+        $layanan = Layanan::create([
+            'kode' => 'REG',
+            'nama' => 'Reguler',
+            'tarif_per_kg' => 9000,
+            'min_kg' => 1,
+            'asuransi_persen' => 0.2,
+            'asuransi_min_nilai' => 1000000,
+            'aktif' => true,
+        ]);
+
+        return compact('user', 'cabangAsal', 'cabangTujuan', 'pelanggan', 'layanan');
+    }
+
+    public function test_user_bisa_membuat_resi_baru(): void
+    {
+        $data = $this->seedBasicData();
+
+        $response = $this->actingAs($data['user'])->post('/resi', [
+            'pelanggan_id' => $data['pelanggan']->id,
+            'cabang_asal_id' => $data['cabangAsal']->id,
+            'cabang_tujuan_id' => $data['cabangTujuan']->id,
+            'layanan_id' => $data['layanan']->id,
+            'nama_penerima' => 'Budi Santoso',
+            'telepon_penerima' => '089876543210',
+            'alamat_penerima' => 'Jl. Merdeka No. 10, Bandung',
+            'berat_aktual' => 1.3,
+            'nilai_barang' => 0,
+        ]);
+
+        $response->assertRedirect();
+
+        $this->assertDatabaseHas('resi', [
+            'nama_penerima' => 'Budi Santoso',
+            'berat_tagih' => 2,
+        ]);
+
+        $resi = Resi::first();
+        $this->assertStringStartsWith('SLC-', $resi->nomor_resi);
+    }
+
+    public function test_resi_menolak_cabang_asal_dan_tujuan_yang_sama(): void
+    {
+        $data = $this->seedBasicData();
+
+        $response = $this->actingAs($data['user'])->post('/resi', [
+            'pelanggan_id' => $data['pelanggan']->id,
+            'cabang_asal_id' => $data['cabangAsal']->id,
+            'cabang_tujuan_id' => $data['cabangAsal']->id,
+            'layanan_id' => $data['layanan']->id,
+            'nama_penerima' => 'Test',
+            'telepon_penerima' => '08123',
+            'alamat_penerima' => 'Test',
+            'berat_aktual' => 2,
+            'nilai_barang' => 0,
+        ]);
+
+        $response->assertSessionHasErrors('cabang_tujuan_id');
+        $this->assertDatabaseCount('resi', 0);
+    }
+
+    public function test_asuransi_dihitung_untuk_nilai_barang_diatas_1_juta(): void
+    {
+        $data = $this->seedBasicData();
+
+        $this->actingAs($data['user'])->post('/resi', [
+            'pelanggan_id' => $data['pelanggan']->id,
+            'cabang_asal_id' => $data['cabangAsal']->id,
+            'cabang_tujuan_id' => $data['cabangTujuan']->id,
+            'layanan_id' => $data['layanan']->id,
+            'nama_penerima' => 'Test',
+            'telepon_penerima' => '08123',
+            'alamat_penerima' => 'Test',
+            'berat_aktual' => 2,
+            'nilai_barang' => 2000000,
+        ]);
+
+        $resi = Resi::first();
+        $this->assertEquals(4000, $resi->asuransi);
+        $this->assertEquals(22000, $resi->total_biaya);
+    }
+
+    public function test_tracking_log_dibuat_otomatis_saat_resi_baru(): void
+    {
+        $data = $this->seedBasicData();
+
+        $this->actingAs($data['user'])->post('/resi', [
+            'pelanggan_id' => $data['pelanggan']->id,
+            'cabang_asal_id' => $data['cabangAsal']->id,
+            'cabang_tujuan_id' => $data['cabangTujuan']->id,
+            'layanan_id' => $data['layanan']->id,
+            'nama_penerima' => 'Test',
+            'telepon_penerima' => '08123',
+            'alamat_penerima' => 'Test',
+            'berat_aktual' => 2,
+            'nilai_barang' => 0,
+        ]);
+
+        $this->assertDatabaseHas('tracking_log', [
+            'status' => 'pending',
+            'lokasi' => 'Jakarta',
+        ]);
+    }
+}</code></pre>
+        </li>
+
+        <li>
+          <h4>Langkah 3 — Jalankan Test</h4>
+          <pre data-lang="cmd"><code>vendor\bin\phpunit --filter=ResiFeatureTest</code></pre>
+          <p>Atau lewat artisan:</p>
+          <pre data-lang="cmd"><code>php artisan test --filter=ResiFeatureTest</code></pre>
+        </li>
+
+        <li>
+          <h4>Langkah 4 — Troubleshooting Cepat</h4>
+          <table>
+            <tr><th>Gejala</th><th>Solusi</th></tr>
+            <tr><td><code>No tests found</code></td><td>File ada BOM. Hapus, buat ulang via <code>make:test</code>, ketik manual.</td></tr>
+            <tr><td><code>table already exists</code></td><td>Migration duplikat. Cek dengan <code>findstr</code>, hapus duplikat.</td></tr>
+            <tr><td><code>Class "X" not found</code></td><td>Jalankan <code>composer dump-autoload</code>.</td></tr>
+            <tr><td>Test jalan tapi gagal</td><td>Cek route <code>POST /resi</code> sudah terdaftar, dan controller-nya ada.</td></tr>
+          </table>
+          <p>Detail troubleshooting lengkap ada di section <a href="#troubleshooting">Troubleshooting</a>.</p>
+        </li>
+
+        <li>
+          <h4>Langkah 5 — Simpan Output</h4>
+          <pre data-lang="cmd"><code>php artisan test --filter=ResiFeatureTest > bukti-praktikum\p3-feature-test.txt 2>&1</code></pre>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        <pre style="background: #1e293b; color: #86efac; margin-top: 8px;"><code>   PASS  Tests\Feature\ResiFeatureTest
+  ✓ user bisa membuat resi baru
+  ✓ resi menolak cabang asal dan tujuan yang sama
+  ✓ asuransi dihitung untuk nilai barang diatas 1 juta
+  ✓ tracking log dibuat otomatis saat resi baru
+
+  Tests:    4 passed
+  Duration: 0.85s</code></pre>
+      </div>
+
+      <div class="callout info">
+        <strong>💡 Best Practice</strong>
+        <ul style="margin: 8px 0 0 20px;">
+          <li>Selalu buat test minimal dulu untuk verifikasi deteksi.</li>
+          <li>Ketik manual, jangan copy-paste dari browser.</li>
+          <li>Gunakan prefix <code>test_</code> pada nama method, lebih universal dari <code>/** @test */</code>.</li>
+          <li>Cek migration duplikat sebelum pakai <code>RefreshDatabase</code>.</li>
+          <li>Kalau factory error <code>Field 'X' doesn't have a default value</code>, tambahkan kolom tersebut di <code>definition()</code>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- P4: STRESS TEST -->
+    <section id="p4">
+      <h2><span class="num">P4</span> Stress Test — Locust</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.037.01</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">60 menit</div>
+        </div>
+        <div class="meta-box danger">
+          <div class="label">Tingkat</div>
+          <div class="value">Sulit</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Menemukan <strong>titik patah (breaking point)</strong> aplikasi SiLacak saat diakses 100–500 user bersamaan.</p>
+
+      <h3>📖 Target Performa</h3>
+      <table>
+        <tr><th>Metrik</th><th>Target</th><th>Alat Ukur</th></tr>
+        <tr><td>Concurrent user</td><td>≥ 500</td><td>Locust</td></tr>
+        <tr><td>p95 Latency</td><td>&lt; 2 detik</td><td>Locust</td></tr>
+        <tr><td>Failure Rate</td><td>&lt; 1%</td><td>Locust</td></tr>
+        <tr><td>RPS (Request/sec)</td><td>Stabil</td><td>Locust</td></tr>
+      </table>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Install Locust</h4>
+          <pre data-lang="cmd"><code>pip install locust</code></pre>
+          <p>Jika belum punya Python: download dari <code>python.org</code>.</p>
+        </li>
+
+        <li>
+          <h4>Buat File <code>locustfile.py</code></h4>
+          <p>Simpan di root proyek <code>C:\DEVELOPMENT\Laravel\silacak-project\silacak\locustfile.py</code>:</p>
+          <pre data-lang="python"><code>from locust import HttpUser, task, between
+
+class PenggunaSiLacak(HttpUser):
+    wait_time = between(1, 3)
+
+    def on_start(self):
+        """Login sekali di awal sesi"""
+        response = self.client.post("/login", {
+            "email": "admin@silacak.test",
+            "password": "password",
+        })
+        if response.status_code != 200 and response.status_code != 302:
+            print(f"Login gagal: {response.status_code}")
+
+    @task(5)
+    def lihat_dashboard(self):
+        self.client.get("/dashboard", name="/dashboard")
+
+    @task(3)
+    def lihat_daftar_resi(self):
+        self.client.get("/resi", name="/resi")
+
+    @task(2)
+    def lacak_resi(self):
+        self.client.get("/lacak?nomor_resi=SLC-20260929-0001", name="/lacak")
+
+    @task(1)
+    def cek_tarif(self):
+        self.client.get("/tarif", name="/tarif")
+
+    @task(1)
+    def filter_resi(self):
+        self.client.get("/resi?status=transit", name="/resi?status=")</code></pre>
+        </li>
+
+        <li>
+          <h4>Jalankan Locust</h4>
+          <pre data-lang="cmd"><code>locust -f locustfile.py --host=http://localhost:8000</code></pre>
+          <p>Buka browser: <strong>http://localhost:8089</strong></p>
+        </li>
+
+        <li>
+          <h4>Konfigurasi Skenario Beban</h4>
+          <p>Di form Locust:</p>
+          <ul>
+            <li><strong>Number of users:</strong> 100</li>
+            <li><strong>Spawn rate:</strong> 10 users/detik</li>
+            <li><strong>Host:</strong> http://localhost:8000</li>
+          </ul>
+          <p>Klik <strong>Start swarming</strong>.</p>
+        </li>
+
+        <li>
+          <h4>Amati Metrik (5 Menit)</h4>
+          <p>Perhatikan di dashboard Locust:</p>
+          <table>
+            <tr><th>Metrik</th><th>Nilai Target</th><th>Interpretasi</th></tr>
+            <tr><td>RPS</td><td>Stabil</td><td>Jika turun = server kewalahan</td></tr>
+            <tr><td>P95 Latency</td><td>&lt; 2000 ms</td><td>Jika naik = query lambat</td></tr>
+            <tr><td>Failure Rate</td><td>&lt; 1%</td><td>Jika naik = server crash</td></tr>
+          </table>
+        </li>
+
+        <li>
+          <h4>Uji Bertahap (Naikkan Beban)</h4>
+          <table>
+            <tr><th>User</th><th>Hasil</th><th>Kesimpulan</th></tr>
+            <tr><td>50</td><td>p95 = 300 ms</td><td>Sehat</td></tr>
+            <tr><td>100</td><td>p95 = 800 ms</td><td>Sehat</td></tr>
+            <tr><td>200</td><td>p95 = 1500 ms</td><td>Warning</td></tr>
+            <tr><td>500</td><td>p95 = 3500 ms, error 5%</td><td>Titik patah</td></tr>
+          </table>
+        </li>
+
+        <li>
+          <h4>Simpan Screenshot & Report</h4>
+          <p>Screenshot dashboard Locust. Simpan sebagai:</p>
+          <ul>
+            <li><code>bukti-praktikum/p4-locust-100-users.png</code></li>
+            <li><code>bukti-praktikum/p4-locust-500-users.png</code></li>
+          </ul>
+          <p>Klik tab <strong>Download Data</strong> → <strong>Download Report</strong> (HTML) untuk bukti lengkap.</p>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        <ul>
+          <li>Report HTML Locust dengan grafik RPS, latency, dan failure rate</li>
+          <li>Kesimpulan: kapasitas maksimal server lokal</li>
+          <li>Rekomendasi optimasi jika p95 &gt; 2 detik</li>
+        </ul>
+      </div>
+
+      <div class="callout warning">
+        <strong>⚠️ Tips</strong>
+        Jalankan <code>php artisan serve</code> di terminal terpisah. Untuk beban &gt; 200 user, gunakan <code>php artisan serve --workers=4</code> atau setup Nginx + PHP-FPM.
+      </div>
+    </section>
+
+    <!-- P5: ALERT -->
+    <section id="p5">
+      <h2><span class="num">P5</span> Alert Notification — Sentry</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.044.01</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">45 menit</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tingkat</div>
+          <div class="value">Menengah</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Mengintegrasikan <strong>Sentry</strong> untuk monitoring error real-time. Setiap error di aplikasi akan dikirim notifikasi ke dashboard Sentry + email/Slack.</p>
+
+      <h3>📖 Alert Buruk vs Alert Informatif</h3>
+      <div class="callout danger">
+        <strong>❌ Alert Buruk</strong>
+        "Error terjadi pada sistem!" — tidak ada konteks
+      </div>
+      <div class="callout success">
+        <strong>✅ Alert Informatif (Sentry)</strong>
+        "Galat simpan resi — user: admin@silacak.test — waktu: 14:32 WIB — trace: /logs/err-9912.log — IP: 10.0.0.5 — stack trace lengkap"
+      </div>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Daftar Akun Sentry (Gratis)</h4>
+          <ol style="margin-left: 24px;">
+            <li>Buka <strong>https://sentry.io/signup/</strong></li>
+            <li>Daftar dengan email</li>
+            <li>Buat project baru: <strong>Laravel</strong></li>
+            <li>Copy <strong>DSN</strong> (format: <code>https://xxx@xxx.ingest.sentry.io/xxx</code>)</li>
+          </ol>
+        </li>
+
+        <li>
+          <h4>Install Package Sentry</h4>
+          <pre data-lang="cmd"><code>composer require sentry/sentry-laravel</code></pre>
+        </li>
+
+        <li>
+          <h4>Konfigurasi DSN via Artisan</h4>
+          <p>Cara termudah — pakai perintah artisan dengan DSN kamu:</p>
+          <pre data-lang="cmd"><code>php artisan sentry:publish --dsn=https://xxx@xxx.ingest.sentry.io/xxx</code></pre>
+          <p>Perintah ini akan:</p>
+          <ul>
+            <li>Membuat file <code>config/sentry.php</code></li>
+            <li>Menambahkan <code>SENTRY_LARAVEL_DSN</code> ke <code>.env</code></li>
+          </ul>
+        </li>
+
+        <li>
+          <h4>Edit <code>bootstrap/app.php</code> untuk Exception Handling</h4>
+          <p>Tambahkan handler Sentry:</p>
+          <pre data-lang="php"><code>&lt;?php
+
+use Illuminate\Foundation\Application;
+use Illuminate\Foundation\Configuration\Exceptions;
+use Illuminate\Foundation\Configuration\Middleware;
+use Sentry\Laravel\Integration;
+
+return Application::configure(basePath: dirname(__DIR__))
+    ->withRouting(
+        web: __DIR__.'/../routes/web.php',
+        commands: __DIR__.'/../routes/console.php',
+        health: '/up',
+    )
+    ->withMiddleware(function (Middleware $middleware) {
+        //
+    })
+    ->withExceptions(function (Exceptions $exceptions) {
+        Integration::handles($exceptions);  // ← TAMBAHKAN
+    })->create();</code></pre>
+        </li>
+
+        <li>
+          <h4>Konfigurasi Log Channel (Opsional)</h4>
+          <p>Buka <code>config/logging.php</code>, tambahkan channel <code>sentry_logs</code>:</p>
+          <pre data-lang="php"><code>'channels' => [
+    // ... channel lain
+
+    'sentry_logs' => [
+        'driver' => 'sentry_logs',
+        'level' => env('LOG_LEVEL', 'info'),
+    ],
+],</code></pre>
+          <p>Lalu di <code>.env</code>:</p>
+          <pre data-lang="env"><code>SENTRY_LARAVEL_DSN=https://xxx@xxx.ingest.sentry.io/xxx
+SENTRY_TRACES_SAMPLE_RATE=1.0
+SENTRY_ENABLE_LOGS=true
+LOG_STACK=single,sentry_logs</code></pre>
+        </li>
+
+        <li>
+          <h4>Verifikasi dengan Artisan</h4>
+          <pre data-lang="cmd"><code>php artisan sentry:test</code></pre>
+          <p>Kalau berhasil, akan muncul pesan <code>[Sentry] DSN discovered!</code> dan <code>[Sentry] Sent a test event!</code></p>
+        </li>
+
+        <li>
+          <h4>Test — Buat Route yang Error</h4>
+          <p>Tambahkan route di <code>routes/web.php</code>:</p>
+          <pre data-lang="php"><code>Route::get('/test-sentry', function () {
+    throw new \Exception('Test error ke Sentry dari SiLacak');
+});</code></pre>
+        </li>
+
+        <li>
+          <h4>Buka URL Test</h4>
+          <p>Buka <strong>http://localhost:8000/test-sentry</strong> di browser. Akan muncul error 500.</p>
+        </li>
+
+        <li>
+          <h4>Cek Dashboard Sentry</h4>
+          <p>Buka <strong>https://sentry.io/issues/</strong>. Error akan muncul dalam 5–10 detik dengan:</p>
+          <ul>
+            <li>Stack trace lengkap</li>
+            <li>Request data (URL, headers, cookies)</li>
+            <li>Environment (local)</li>
+            <li>User info jika login</li>
+            <li>Breadcrumbs (aksi sebelum error)</li>
+          </ul>
+        </li>
+
+        <li>
+          <h4>Simpan Screenshot</h4>
+          <p>Screenshot dashboard Sentry. Simpan sebagai <code>bukti-praktikum/p5-sentry.png</code>.</p>
+        </li>
+
+        <li>
+          <h4>Hapus Route Test</h4>
+          <p>Hapus route <code>/test-sentry</code> dari <code>routes/web.php</code> setelah selesai.</p>
+        </li>
+      </ol>
+
+      <div class="callout info">
+        <strong>💡 Alternatif Gratis</strong>
+        Jika tidak ingin daftar Sentry, gunakan <strong>Telegram Bot</strong>:
+        <pre style="background: #1e293b; color: #e2e8f0; margin-top: 8px;"><code>// app/Providers/AppServiceProvider.php
+public function boot(): void
+{
+    Log::listen(function (MessageLogged $event) {
+        if (in_array($event->level, ['error', 'critical'])) {
+            Http::timeout(2)->post('https://api.telegram.org/bot{TOKEN}/sendMessage', [
+                'chat_id' => '{CHAT_ID}',
+                'text' => "[SiLacak] {$event->message}",
+            ]);
+        }
+    });
+}</code></pre>
+      </div>
+    </section>
+
+    <!-- P6: MONITORING -->
+    <section id="p6">
+      <h2><span class="num">P6</span> Pemantauan Resource — Dashboard Monitoring</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.045.01</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">45 menit</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tingkat</div>
+          <div class="value">Menengah</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Membuat <strong>dashboard monitoring</strong> untuk memantau resource server: CPU, RAM, disk, database, dan performa aplikasi.</p>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Buat Controller Monitoring</h4>
+          <pre data-lang="cmd"><code>php artisan make:controller MonitoringController</code></pre>
+        </li>
+
+        <li>
+          <h4>Isi Controller</h4>
+          <p>Buka <code>app\Http\Controllers\MonitoringController.php</code>:</p>
+          <pre data-lang="php"><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Resi;
+use Illuminate\Support\Facades\DB;
+
+class MonitoringController extends Controller
+{
+    public function index()
+    {
+        return view('monitoring.index', [
+            'resources' => $this->getResourceMetrics(),
+            'database' => $this->getDatabaseMetrics(),
+            'application' => $this->getApplicationMetrics(),
+        ]);
+    }
+
+    private function getResourceMetrics(): array
+    {
+        $diskTotal = disk_total_space(base_path());
+        $diskFree = disk_free_space(base_path());
+        $diskUsed = $diskTotal - $diskFree;
+
+        return [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'os' => php_uname('s') . ' ' . php_uname('r'),
+            'memory_limit' => ini_get('memory_limit'),
+            'memory_usage' => round(memory_get_usage() / 1024 / 1024, 2) . ' MB',
+            'memory_peak' => round(memory_get_peak_usage() / 1024 / 1024, 2) . ' MB',
+            'disk_total' => round($diskTotal / 1024 / 1024 / 1024, 2) . ' GB',
+            'disk_used' => round($diskUsed / 1024 / 1024 / 1024, 2) . ' GB',
+            'disk_free' => round($diskFree / 1024 / 1024 / 1024, 2) . ' GB',
+            'disk_percent' => round(($diskUsed / $diskTotal) * 100, 2),
+        ];
+    }
+
+    private function getDatabaseMetrics(): array
+    {
+        $start = microtime(true);
+
+        try {
+            DB::select('SELECT 1');
+            $latency = round((microtime(true) - $start) * 1000, 2);
+            $status = 'OK';
+        } catch (\Throwable $e) {
+            $latency = null;
+            $status = 'ERROR: ' . $e->getMessage();
+        }
+
+        return [
+            'connection' => config('database.default'),
+            'database' => config('database.connections.mysql.database'),
+            'latency' => $latency,
+            'status' => $status,
+            'total_resi' => Resi::count(),
+            'resi_hari_ini' => Resi::whereDate('created_at', today())->count(),
+            'table_size' => $this->getDatabaseSize(),
+        ];
+    }
+
+    private function getDatabaseSize(): string
+    {
+        try {
+            $result = DB::select("
+                SELECT ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS size_mb
+                FROM information_schema.tables
+                WHERE table_schema = ?
+            ", [config('database.connections.mysql.database')]);
+
+            return ($result[0]->size_mb ?? 0) . ' MB';
+        } catch (\Throwable $e) {
+            return 'N/A';
+        }
+    }
+
+    private function getApplicationMetrics(): array
+    {
+        return [
+            'cache_driver' => config('cache.default'),
+            'session_driver' => config('session.driver'),
+            'queue_driver' => config('queue.default'),
+            'app_env' => config('app.env'),
+            'app_debug' => config('app.debug') ? 'ON' : 'OFF',
+            'timezone' => config('app.timezone'),
+        ];
+    }
+}</code></pre>
+        </li>
+
+        <li>
+          <h4>Buat View Monitoring</h4>
+          <p>Buat file <code>resources\views\monitoring\index.blade.php</code>:</p>
+          <pre data-lang="blade"><code>@extends('layouts.app')
+@section('judul', 'Monitoring Resource')
+@section('konten')
+&lt;h1 class="text-2xl font-bold mb-6"&gt;📊 Monitoring Resource Server&lt;/h1&gt;
+
+&lt;div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"&gt;
+    &lt;div class="bg-white p-5 rounded shadow border-l-4 border-blue-500"&gt;
+        &lt;p class="text-sm text-gray-500"&gt;PHP Version&lt;/p&gt;
+        &lt;p class="text-2xl font-bold text-blue-700"&gt;{{ $resources['php_version'] }}&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="bg-white p-5 rounded shadow border-l-4 border-green-500"&gt;
+        &lt;p class="text-sm text-gray-500"&gt;Laravel&lt;/p&gt;
+        &lt;p class="text-2xl font-bold text-green-600"&gt;{{ $resources['laravel_version'] }}&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="bg-white p-5 rounded shadow border-l-4 border-purple-500"&gt;
+        &lt;p class="text-sm text-gray-500"&gt;OS&lt;/p&gt;
+        &lt;p class="text-lg font-bold text-purple-700"&gt;{{ $resources['os'] }}&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"&gt;
+    &lt;div class="bg-white p-6 rounded shadow"&gt;
+        &lt;h2 class="font-bold text-lg mb-4"&gt;💾 Memory&lt;/h2&gt;
+        &lt;div class="space-y-2 text-sm"&gt;
+            &lt;div class="flex justify-between"&gt;&lt;span&gt;Memory Limit:&lt;/span&gt;&lt;strong&gt;{{ $resources['memory_limit'] }}&lt;/strong&gt;&lt;/div&gt;
+            &lt;div class="flex justify-between"&gt;&lt;span&gt;Memory Usage:&lt;/span&gt;&lt;strong&gt;{{ $resources['memory_usage'] }}&lt;/strong&gt;&lt;/div&gt;
+            &lt;div class="flex justify-between"&gt;&lt;span&gt;Memory Peak:&lt;/span&gt;&lt;strong&gt;{{ $resources['memory_peak'] }}&lt;/strong&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div class="bg-white p-6 rounded shadow"&gt;
+        &lt;h2 class="font-bold text-lg mb-4"&gt;💿 Disk&lt;/h2&gt;
+        &lt;div class="space-y-2 text-sm"&gt;
+            &lt;div class="flex justify-between"&gt;&lt;span&gt;Total:&lt;/span&gt;&lt;strong&gt;{{ $resources['disk_total'] }}&lt;/strong&gt;&lt;/div&gt;
+            &lt;div class="flex justify-between"&gt;&lt;span&gt;Used:&lt;/span&gt;&lt;strong&gt;{{ $resources['disk_used'] }}&lt;/strong&gt;&lt;/div&gt;
+            &lt;div class="flex justify-between"&gt;&lt;span&gt;Free:&lt;/span&gt;&lt;strong&gt;{{ $resources['disk_free'] }}&lt;/strong&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="bg-white p-6 rounded shadow"&gt;
+    &lt;h2 class="font-bold text-lg mb-4"&gt;🗄️ Database&lt;/h2&gt;
+    &lt;div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"&gt;
+        &lt;div&gt;&lt;span class="text-gray-500"&gt;Connection:&lt;/span&gt; &lt;strong&gt;{{ $database['connection'] }}&lt;/strong&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;span class="text-gray-500"&gt;Database:&lt;/span&gt; &lt;strong&gt;{{ $database['database'] }}&lt;/strong&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;span class="text-gray-500"&gt;Latency:&lt;/span&gt; &lt;strong&gt;{{ $database['latency'] }} ms&lt;/strong&gt;&lt;/div&gt;
+        &lt;div&gt;&lt;span class="text-gray-500"&gt;Total Resi:&lt;/span&gt; &lt;strong&gt;{{ number_format($database['total_resi']) }}&lt;/strong&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+@endsection</code></pre>
+        </li>
+
+        <li>
+          <h4>Tambahkan Route</h4>
+          <p>Di <code>routes/web.php</code>, tambahkan dalam grup <code>auth</code>:</p>
+          <pre data-lang="php"><code>Route::get('/monitoring', [App\Http\Controllers\MonitoringController::class, 'index'])
+    ->name('monitoring');</code></pre>
+        </li>
+
+        <li>
+          <h4>Buka Dashboard Monitoring</h4>
+          <p>Buka <strong>http://localhost:8000/monitoring</strong>. Akan tampil semua metrik resource.</p>
+        </li>
+
+        <li>
+          <h4>Simpan Screenshot</h4>
+          <p>Screenshot dashboard monitoring. Simpan sebagai <code>bukti-praktikum/p6-monitoring.png</code>.</p>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        Dashboard monitoring menampilkan:
+        <ul>
+          <li>PHP & Laravel version</li>
+          <li>Memory usage & peak</li>
+          <li>Disk usage</li>
+          <li>Database connection + latency</li>
+          <li>Application config (env, debug, cache)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- P7: LOGGING -->
+    <section id="p7">
+      <h2><span class="num">P7</span> Logging Terstruktur — Log JSON</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.620100.046.01</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">45 menit</div>
+        </div>
+        <div class="meta-box warning">
+          <div class="label">Tingkat</div>
+          <div class="value">Menengah</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Menerapkan <strong>logging terstruktur (JSON)</strong> dengan level RFC-5424 dan konteks kaya untuk audit trail transaksi bisnis.</p>
+
+      <h3>📖 Level Log RFC-5424</h3>
+      <table>
+        <tr><th>Level</th><th>Penggunaan</th><th>Contoh SiLacak</th></tr>
+        <tr><td><span class="badge" style="background:#dbeafe;color:#1e40af;">DEBUG</span></td><td>Development</td><td>Query SQL detail</td></tr>
+        <tr><td><span class="badge" style="background:#dbeafe;color:#1e40af;">INFO</span></td><td>Transaksi normal</td><td><code>resi.dibuat</code></td></tr>
+        <tr><td><span class="badge" style="background:#fef3c7;color:#92400e;">WARNING</span></td><td>Anomali minor</td><td>Validasi gagal berulang</td></tr>
+        <tr><td><span class="badge" style="background:#fee2e2;color:#991b1b;">ERROR</span></td><td>Kegagalan</td><td>Gagal simpan, DB putus</td></tr>
+        <tr><td><span class="badge" style="background:#fee2e2;color:#991b1b;">CRITICAL</span></td><td>Sistem down</td><td>Database down</td></tr>
+      </table>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Konfigurasi Log Channel JSON</h4>
+          <p>Buka <code>config/logging.php</code>, tambahkan channel <code>json_daily</code>:</p>
+          <pre data-lang="php"><code>'channels' => [
+    // ... channel default
+
+    'json_daily' => [
+        'driver' => 'daily',
+        'path' => storage_path('logs/silacak.json'),
+        'level' => env('LOG_LEVEL', 'debug'),
+        'days' => 30,
+        'formatter' => Monolog\Formatter\JsonFormatter::class,  // ← JSON
+    ],
+],</code></pre>
+        </li>
+
+        <li>
+          <h4>Aktifkan Channel di .env</h4>
+          <pre data-lang="env"><code>LOG_CHANNEL=json_daily
+LOG_LEVEL=debug</code></pre>
+          <p>Jalankan <code>php artisan config:clear</code> setelah ubah.</p>
+        </li>
+
+        <li>
+          <h4>Tambahkan Log di ResiService</h4>
+          <p>Buka <code>app\Services\ResiService.php</code>:</p>
+          <pre data-lang="php"><code>use Illuminate\Support\Facades\Log;
+
+public function buatResi(array $data, int $userId): Resi
+{
+    // ... kode existing
+
+    Log::info('resi.dibuat', [
+        'nomor_resi' => $resi->nomor_resi,
+        'pelanggan_id' => $pelanggan->id,
+        'pelanggan_nama' => $pelanggan->nama,
+        'layanan' => $layanan->nama,
+        'berat_aktual' => $data['berat_aktual'],
+        'berat_tagih' => $beratTagih,
+        'total_biaya' => $hasil['total_biaya'],
+        'user_id' => $userId,
+        'user_email' => auth()->user()?->email,
+        'ip_address' => request()->ip(),
+        'waktu' => now()->toIso8601String(),
+    ]);
+
+    return $resi;
+}</code></pre>
+        </li>
+
+        <li>
+          <h4>Trigger Log — Buat Resi Baru</h4>
+          <p>Buka browser, login, lalu buat resi baru. Setelah tersimpan, buka file log:</p>
+          <pre data-lang="cmd"><code>type storage\logs\silacak-2026-09-29.log</code></pre>
+        </li>
+
+        <li>
+          <h4>Amati Output JSON</h4>
+          <pre data-lang="json"><code>{"message":"resi.dibuat","context":{"nomor_resi":"SLC-20260929-0001","pelanggan_nama":"PT Maju Jaya","berat_aktual":"1.3","berat_tagih":2,"total_biaya":18000,"user_email":"admin@silacak.test","ip_address":"127.0.0.1","waktu":"2026-09-29T14:32:15+07:00"},"level":200,"level_name":"INFO","channel":"json_daily","datetime":"2026-09-29T14:32:15.123456+07:00"}</code></pre>
+        </li>
+
+        <li>
+          <h4>Simpan Bukti</h4>
+          <pre data-lang="cmd"><code>copy storage\logs\silacak-2026-09-29.log bukti-praktikum\p7-log.json</code></pre>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        <ul>
+          <li>File <code>storage/logs/silacak-YYYY-MM-DD.log</code> berisi log JSON</li>
+          <li>Setiap aksi tercatat dengan konteks lengkap: nomor resi, user, IP, waktu</li>
+          <li>Log <code>error</code> terpisah dari <code>info</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- P8: DWDM -->
+    <section id="p8">
+      <h2><span class="num">P8</span> Perencanaan DWDM — Link Budget Jakarta–Cikarang</h2>
+
+      <div class="meta-grid">
+        <div class="meta-box">
+          <div class="label">Unit Kompetensi</div>
+          <div class="value">J.612000.019.01</div>
+        </div>
+        <div class="meta-box">
+          <div class="label">Durasi</div>
+          <div class="value">60 menit</div>
+        </div>
+        <div class="meta-box danger">
+          <div class="label">Tingkat</div>
+          <div class="value">Sulit</div>
+        </div>
+      </div>
+
+      <h3>🎯 Tujuan</h3>
+      <p>Menghitung <strong>link budget</strong> DWDM (Dense Wavelength Division Multiplexing) untuk koneksi antara <strong>DC Jakarta</strong> dan <strong>DRC Cikarang</strong>, serta menentukan kelayakan link.</p>
+
+      <h3>📖 Konsep DWDM</h3>
+      <p>DWDM = teknologi multiplexing yang memungkinkan banyak "warna" cahaya (wavelength) lewat dalam 1 kabel fiber optik.</p>
+      <ul>
+        <li><strong>1 kanal DWDM</strong> = 1 warna = 10 Gbps</li>
+        <li><strong>Butuh 5 kanal</strong> = butuh 5 warna berbeda dalam 1 kabel</li>
+      </ul>
+
+      <h3>📊 Data dari Studi Kasus</h3>
+      <table>
+        <tr><th>Parameter</th><th>Nilai</th></tr>
+        <tr><td>Tx Power</td><td>0 dBm</td></tr>
+        <tr><td>Rx Sensitivity</td><td>−24 dBm</td></tr>
+        <tr><td>Redaman fiber</td><td>0,25 dB/km</td></tr>
+        <tr><td>Jarak Jakarta–Cikarang</td><td>45 km</td></tr>
+        <tr><td>Mux + Demux</td><td>2,5 + 2,5 = 5 dB</td></tr>
+        <tr><td>Konektor</td><td>4 × 0,5 dB = 2 dB</td></tr>
+        <tr><td>Splice (tiap 2 km)</td><td>@0,1 dB</td></tr>
+        <tr><td>Margin</td><td>3 dB</td></tr>
+        <tr><td>Kebutuhan kanal</td><td>3 × 10 Gbps + 2 cadangan = 5 kanal</td></tr>
+      </table>
+
+      <h3>🔍 Langkah Praktikum</h3>
+
+      <ol class="steps">
+        <li>
+          <h4>Buat Script Kalkulator DWDM</h4>
+          <p>Buat file <code>hitung-dwdm.php</code> di root proyek:</p>
+          <pre data-lang="php"><code>&lt;?php
+/**
+ * Kalkulator Link Budget DWDM
+ * Jakarta (DC) → Cikarang (DRC)
+ */
+
+echo "======================================================\n";
+echo "  KALKULATOR LINK BUDGET DWDM\n";
+echo "  Jakarta (DC) → Cikarang (DRC)\n";
+echo "======================================================\n\n";
+
+// ============ PARAMETER ============
+$txPower        = 0;
+$rxSensitivity  = -24;
+$fiberLossPerKm = 0.25;
+$jarak          = 45;
+$muxLoss        = 2.5;
+$demuxLoss      = 2.5;
+$konektor       = 4;
+$konektorLoss   = 0.5;
+$margin         = 3;
+$splicePerKm    = 2;
+$spliceLoss     = 0.1;
+$kapasitasKanal = 10;
+$kanalUtama     = 3;
+$kanalCadangan  = 2;
+
+// ============ PERHITUNGAN ============
+echo "📐 PERHITUNGAN LINK BUDGET\n";
+echo str_repeat("-", 55) . "\n";
+
+$redamanFiber = $jarak * $fiberLossPerKm;
+printf("1. Redaman Fiber       : %d km × %.2f dB/km = %.2f dB\n",
+    $jarak, $fiberLossPerKm, $redamanFiber);
+
+$jumlahSplice = floor($jarak / $splicePerKm);
+$redamanSplice = $jumlahSplice * $spliceLoss;
+printf("2. Jumlah Splice       : %d km / %d km = %d titik\n",
+    $jarak, $splicePerKm, $jumlahSplice);
+printf("   Redaman Splice      : %d × %.2f dB = %.2f dB\n",
+    $jumlahSplice, $spliceLoss, $redamanSplice);
+
+$totalMuxDemux = $muxLoss + $demuxLoss;
+printf("3. Mux + Demux         : %.2f + %.2f = %.2f dB\n",
+    $muxLoss, $demuxLoss, $totalMuxDemux);
+
+$totalKonektor = $konektor * $konektorLoss;
+printf("4. Konektor            : %d × %.2f dB = %.2f dB\n",
+    $konektor, $konektorLoss, $totalKonektor);
+
+printf("5. Margin              : %.2f dB\n", $margin);
+
+$totalRedaman = $redamanFiber + $redamanSplice + $totalMuxDemux + $totalKonektor + $margin;
+printf("\n   TOTAL REDAMAN       : %.2f dB\n", $totalRedaman);
+
+$rxPower = $txPower - $totalRedaman;
+printf("   Rx Power            : %.2f dBm - %.2f dB = %.2f dBm\n",
+    $txPower, $totalRedaman, $rxPower);
+
+$marginTersisa = $rxPower - $rxSensitivity;
+printf("   Margin Tersisa      : %.2f dBm - (%.2f dBm) = %.2f dB\n",
+    $rxPower, $rxSensitivity, $marginTersisa);
+
+// ============ KESIMPULAN ============
+echo "\n📊 KESIMPULAN LINK\n";
+echo str_repeat("-", 55) . "\n";
+
+if ($rxPower >= $rxSensitivity) {
+    echo "✅ LINK LAYAK\n";
+    printf("   Sinyal diterima: %.2f dBm ≥ Sensitivitas: %.2f dBm\n",
+        $rxPower, $rxSensitivity);
+    printf("   Margin tersisa: %.2f dB\n", $marginTersisa);
+} else {
+    echo "❌ LINK TIDAK LAYAK\n";
+    printf("   Sinyal diterima: %.2f dBm < Sensitivitas: %.2f dBm\n",
+        $rxPower, $rxSensitivity);
+    printf("   Kekurangan: %.2f dB\n", abs($marginTersisa));
+}
+
+// ============ KANAL DWDM ============
+echo "\n📡 PERENCANAAN KANAL DWDM\n";
+echo str_repeat("-", 55) . "\n";
+
+$totalKanal = $kanalUtama + $kanalCadangan;
+printf("Kanal Utama    : %d × %d Gbps\n", $kanalUtama, $kapasitasKanal);
+printf("Kanal Cadangan : %d × %d Gbps\n", $kanalCadangan, $kapasitasKanal);
+printf("Total Kanal    : %d kanal\n", $totalKanal);
+printf("Total Kapasitas: %d Gbps\n", $totalKanal * $kapasitasKanal);
+
+echo "\n📋 Alokasi Wavelength (Channel Spacing 100 GHz / 0.8 nm)\n";
+echo str_repeat("-", 55) . "\n";
+
+$wavelengthStart = 1550.00;
+for ($i = 1; $i <= $totalKanal; $i++) {
+    $wavelength = $wavelengthStart + (($i - 1) * 0.8);
+    $tipe = $i <= $kanalUtama ? 'Utama' : 'Cadangan';
+    printf("  Kanal %d : %.2f nm (%s)\n", $i, $wavelength, $tipe);
+}
+
+// ============ RISIKO ============
+echo "\n⚠️  CATATAN RISIKO\n";
+echo str_repeat("-", 55) . "\n";
+
+if ($marginTersisa < 2) {
+    echo "Margin tersisa sangat tipis (< 2 dB). Berisiko saat:\n";
+    echo "  - Suhu kabel berubah ekstrem\n";
+    echo "  - Konektor kotor / aging\n";
+    echo "  - Fiber menua\n";
+    echo "\nREKOMENDASI:\n";
+    echo "  - Tambahkan EDFA (Erbium-Doped Fiber Amplifier)\n";
+    echo "  - Perbaiki kualitas konektor (gunakan UPC/APC)\n";
+    echo "  - Pertimbangkan repeater di tengah jalur\n";
+} elseif ($marginTersisa < 5) {
+    echo "Margin tersisa cukup, namun tetap pantau kualitas link.\n";
+} else {
+    echo "Margin tersisa aman untuk operasional jangka panjang.\n";
+}
+
+echo "\n======================================================\n";
+echo "  SELESAI\n";
+echo "======================================================\n";</code></pre>
+        </li>
+
+        <li>
+          <h4>Jalankan Script</h4>
+          <pre data-lang="cmd"><code>php hitung-dwdm.php</code></pre>
+        </li>
+
+        <li>
+          <h4>Amati Output</h4>
+          <pre data-lang="text"><code>======================================================
+  KALKULATOR LINK BUDGET DWDM
+  Jakarta (DC) → Cikarang (DRC)
+======================================================
+
+📐 PERHITUNGAN LINK BUDGET
+-------------------------------------------------------
+1. Redaman Fiber       : 45 km × 0.25 dB/km = 11.25 dB
+2. Jumlah Splice       : 45 km / 2 km = 22 titik
+   Redaman Splice      : 22 × 0.10 dB = 2.20 dB
+3. Mux + Demux         : 2.50 + 2.50 = 5.00 dB
+4. Konektor            : 4 × 0.50 dB = 2.00 dB
+5. Margin              : 3.00 dB
+
+   TOTAL REDAMAN       : 23.45 dB
+   Rx Power            : 0.00 dBm - 23.45 dB = -23.45 dBm
+   Margin Tersisa      : -23.45 dBm - (-24.00 dBm) = 0.55 dB
+
+📊 KESIMPULAN LINK
+-------------------------------------------------------
+✅ LINK LAYAK
+   Sinyal diterima: -23.45 dBm ≥ Sensitivitas: -24.00 dBm
+   Margin tersisa: 0.55 dB
+
+📡 PERENCANAAN KANAL DWDM
+-------------------------------------------------------
+Kanal Utama    : 3 × 10 Gbps
+Kanal Cadangan : 2 × 10 Gbps
+Total Kanal    : 5 kanal
+Total Kapasitas: 50 Gbps
+
+📋 Alokasi Wavelength (Channel Spacing 100 GHz / 0.8 nm)
+-------------------------------------------------------
+  Kanal 1 : 1550.00 nm (Utama)
+  Kanal 2 : 1550.80 nm (Utama)
+  Kanal 3 : 1551.60 nm (Utama)
+  Kanal 4 : 1552.40 nm (Cadangan)
+  Kanal 5 : 1553.20 nm (Cadangan)
+
+⚠️  CATATAN RISIKO
+-------------------------------------------------------
+Margin tersisa sangat tipis (&lt; 2 dB). Berisiko saat:
+  - Suhu kabel berubah ekstrem
+  - Konektor kotor / aging
+  - Fiber menua
+
+REKOMENDASI:
+  - Tambahkan EDFA (Erbium-Doped Fiber Amplifier)
+  - Perbaiki kualitas konektor (gunakan UPC/APC)
+  - Pertimbangkan repeater di tengah jalur</code></pre>
+        </li>
+
+        <li>
+          <h4>Simpan Output Bukti</h4>
+          <pre data-lang="cmd"><code>php hitung-dwdm.php > bukti-praktikum\p8-dwdm.txt</code></pre>
+        </li>
+
+        <li>
+          <h4>Latihan Variasi</h4>
+          <p>Ubah <code>$jarak = 80</code> dan jalankan lagi. Amati kesimpulan berubah menjadi <strong>LINK TIDAK LAYAK</strong>.</p>
+        </li>
+      </ol>
+
+      <div class="callout success">
+        <strong>✅ Output yang Diharapkan</strong>
+        <ul>
+          <li>Link Budget: Rx Power = −23,45 dBm</li>
+          <li>Kesimpulan: LINK LAYAK, margin tersisa 0,55 dB</li>
+          <li>Perencanaan 5 kanal DWDM dengan spacing 100 GHz</li>
+          <li>Catatan risiko & rekomendasi mitigasi</li>
+        </ul>
+      </div>
+
+      <div class="callout warning">
+        <strong>⚠️ Kaitan dengan Aplikasi SiLacak</strong>
+        DWDM bukan bagian dari kode aplikasi, tapi <strong>infrastruktur jaringan</strong> yang menghubungkan DC Jakarta (primary) dengan DRC Cikarang (disaster recovery). Jika DC Jakarta down, DRC Cikarang ambil alih.
+      </div>
+    </section>
+
+    <!-- TROUBLESHOOTING -->
+    <section id="troubleshooting">
+      <h2><span class="num">🛠</span> Troubleshooting Umum</h2>
+
+      <p>Kumpulan masalah yang sering terjadi saat praktikum, beserta solusinya. Berdasarkan pengalaman debugging nyata.</p>
+
+      <h3>Masalah Test & PHPUnit</h3>
+      <table>
+        <tr><th>Error</th><th>Penyebab</th><th>Solusi</th></tr>
+        <tr>
+          <td><code>No tests found</code></td>
+          <td>File test berisi karakter BOM / smart quotes dari copy-paste browser</td>
+          <td>
+            Hapus file, buat ulang dengan <code>php artisan make:test</code>, ketik manual.
+            Cek juga: <code>vendor\bin\phpunit --list-tests</code>.
+          </td>
+        </tr>
+        <tr>
+          <td><code>table "X" already exists</code></td>
+          <td>Ada 2 file migration yang sama-sama buat tabel</td>
+          <td>
+            Cek: <code>findstr /S "Schema::create" database\migrations\*.php</code>.
+            Hapus file duplikat, jalankan <code>php artisan migrate:fresh</code>.
+          </td>
+        </tr>
+        <tr>
+          <td>Test tidak terdeteksi</td>
+          <td>Nama class beda dengan nama file</td>
+          <td>
+            Pastikan <code>class ResiFeatureTest</code> sama persis dengan <code>ResiFeatureTest.php</code>.
+            Cek: <code>findstr "class\|namespace" tests\Feature\ResiFeatureTest.php</code>
+          </td>
+        </tr>
+        <tr>
+          <td>Test tidak terdeteksi</td>
+          <td>Anotasi <code>/** @test */</code> tidak dikenali</td>
+          <td>Ganti ke prefix <code>test_</code> pada nama method</td>
+        </tr>
+        <tr>
+          <td>Test deteksi tapi error di awal</td>
+          <td>Syntax error</td>
+          <td>Cek: <code>php -l tests\Feature\ResiFeatureTest.php</code></td>
+        </tr>
+        <tr>
+          <td>Test pakai DB tapi error koneksi</td>
+          <td><code>phpunit.xml</code> konfigurasi DB salah</td>
+          <td>Pastikan ada <code>&lt;env name="DB_CONNECTION" value="sqlite"/&gt;</code> dan <code>&lt;env name="DB_DATABASE" value=":memory:"/&gt;</code></td>
+        </tr>
+      </table>
+
+      <h3>Masalah Factory & Seeder</h3>
+      <table>
+        <tr><th>Error</th><th>Penyebab</th><th>Solusi</th></tr>
+        <tr>
+          <td><code>Class "Database\Factories\XFactory" not found</code></td>
+          <td>Factory belum dibuat</td>
+          <td>Jalankan <code>php artisan make:factory XFactory --model=X</code></td>
+        </tr>
+        <tr>
+          <td><code>Field 'X' doesn't have a default value</code></td>
+          <td>Kolom NOT NULL di DB tidak diisi di factory</td>
+          <td>
+            Cek struktur tabel di DB, tambahkan semua kolom NOT NULL ke <code>definition()</code> factory.
+            Kolom umum yang sering lupa: <code>berat_tagih</code>, <code>biaya_dasar</code>, <code>total_biaya</code>.
+          </td>
+        </tr>
+        <tr>
+          <td><code>MassAssignmentException</code></td>
+          <td>Kolom tidak ada di <code>$fillable</code> model</td>
+          <td>Tambahkan kolom ke <code>$fillable</code> di model</td>
+        </tr>
+        <tr>
+          <td><code>Class "App\Models\X" not found</code></td>
+          <td>Autoload belum register</td>
+          <td>Jalankan <code>composer dump-autoload</code></td>
+        </tr>
+      </table>
+
+      <h3>Masalah Query & Database</h3>
+      <table>
+        <tr><th>Error</th><th>Penyebab</th><th>Solusi</th></tr>
+        <tr>
+          <td><code>Parse error: unexpected T_STRING</code> di Tinker</td>
+          <td>Menulis SQL mentah langsung di Tinker</td>
+          <td>
+            Bungkus dengan <code>DB::select("...")</code> atau <code>DB::statement("...")</code>.
+            Contoh: <code>DB::select("EXPLAIN SELECT ...");</code>
+          </td>
+        </tr>
+        <tr>
+          <td>N+1 query tidak muncul (cuma 2 query)</td>
+          <td>Data di tabel hanya sedikit (1-2 baris)</td>
+          <td>
+            Generate 10+ data dengan factory:
+            <code>App\Models\Resi::factory(10)->create();</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>EXPLAIN</code> menunjukkan type=ALL</td>
+          <td>Belum ada index atau data masih sedikit</td>
+          <td>
+            Tambahkan index: <code>ALTER TABLE resi ADD INDEX idx_nomor (nomor_resi)</code>.
+            Generate 10.000+ data untuk melihat perbedaan.
+          </td>
+        </tr>
+        <tr>
+          <td>Relasi <code>$r->pelanggan</code> null</td>
+          <td>Foreign key tidak cocok / data tidak ada</td>
+          <td>
+            Cek: <code>Resi::first()->pelanggan_id</code> dan <code>Pelanggan::find($id)</code>.
+            Pastikan ada data pelanggan dengan ID tersebut.
+          </td>
+        </tr>
+      </table>
+
+      <h3>Masalah Migration</h3>
+      <table>
+        <tr><th>Error</th><th>Penyebab</th><th>Solusi</th></tr>
+        <tr>
+          <td>Migration gagal di tengah jalan</td>
+          <td>Foreign key ke tabel yang belum dibuat</td>
+          <td>
+            Pastikan urutan migration benar. File migration untuk tabel utama
+            (<code>cabang</code>, <code>layanan</code>, <code>pelanggan</code>)
+            harus lebih dulu dari tabel transaksi (<code>resi</code>, <code>tracking_log</code>).
+          </td>
+        </tr>
+        <tr>
+          <td><code>Syntax error or access violation</code></td>
+          <td>Nama kolom typo atau tidak ada</td>
+          <td>
+            Cek nama kolom di migration vs nama di <code>$fillable</code> model vs
+            nama di form request.
+          </td>
+        </tr>
+      </table>
+
+      <h3>Masalah Umum Lainnya</h3>
+      <table>
+        <tr><th>Error</th><th>Solusi</th></tr>
+        <tr>
+          <td>Route tidak ditemukan (<code>404</code>)</td>
+          <td>Cek <code>php artisan route:list</code> — pastikan route terdaftar</td>
+        </tr>
+        <tr>
+          <td>Perubahan kode tidak muncul</td>
+          <td>Jalankan <code>php artisan optimize:clear</code> atau <code>composer dump-autoload</code></td>
+        </tr>
+        <tr>
+          <td>View tidak ketemu</td>
+          <td>
+            Cek nama file view: <code>resources/views/nama/index.blade.php</code>.
+            Panggil dengan <code>view('nama.index')</code>.
+          </td>
+        </tr>
+        <tr>
+          <td>Composer install error</td>
+          <td>
+            Hapus <code>vendor/</code> dan <code>composer.lock</code>, lalu
+            <code>composer install</code>. Atau cek versi PHP minimal.
+          </td>
+        </tr>
+      </table>
+
+      <div class="callout info">
+        <strong>💡 Tips Umum</strong>
+        <ul style="margin: 8px 0 0 20px;">
+          <li>Selalu jalankan <code>composer dump-autoload</code> setelah bikin file baru.</li>
+          <li>Jalankan <code>php artisan optimize:clear</code> kalau ada perubahan aneh.</li>
+          <li>Kalau test tidak terdeteksi, cek dengan <code>vendor\bin\phpunit --list-tests</code> dulu.</li>
+          <li>Untuk debug, selalu cek <code>storage/logs/laravel.log</code>.</li>
+          <li>Verifikasi bertahap: test minimal dulu, baru tambah kompleksitas.</li>
+          <li>Ketik manual kode, jangan copy-paste dari browser.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- REKAP -->
+    <section id="rekap">
+      <h2><span class="num">📁</span> Rekapitulasi Bukti Praktikum</h2>
+
+      <p>Setelah menyelesaikan 8 praktikum, folder <code>bukti-praktikum/</code> akan berisi:</p>
+
+      <table>
+        <tr><th>No</th><th>File Bukti</th><th>Praktikum</th><th>Unit Kompetensi</th></tr>
+        <tr><td>P1</td><td><code>p1-debugging.txt</code></td><td>Debugging Bug Berat</td><td>J.620100.025.02</td></tr>
+        <tr><td>P2</td><td><code>p2-debugbar.png</code></td><td>Profiling N+1 Query</td><td>J.620100.031.01</td></tr>
+        <tr><td>P3</td><td><code>p3-feature-test.txt</code></td><td>Feature Test PHPUnit</td><td>J.620100.034.02</td></tr>
+        <tr><td>P4</td><td><code>p4-locust-*.png</code></td><td>Stress Test Locust</td><td>J.620100.037.01</td></tr>
+        <tr><td>P5</td><td><code>p5-sentry.png</code></td><td>Alert Notification Sentry</td><td>J.620100.044.01</td></tr>
+        <tr><td>P6</td><td><code>p6-monitoring.png</code></td><td>Dashboard Monitoring</td><td>J.620100.045.01</td></tr>
+        <tr><td>P7</td><td><code>p7-log.json</code></td><td>Logging Terstruktur</td><td>J.620100.046.01</td></tr>
+        <tr><td>P8</td><td><code>p8-dwdm.txt</code></td><td>Link Budget DWDM</td><td>J.612000.019.01</td></tr>
+      </table>
+
+      <h3>Checklist Akhir</h3>
+      <ul style="list-style: none; margin-left: 0;">
+        <li>☐ P1 — Bug berat diperbaiki & terbukti</li>
+        <li>☐ P2 — Debugbar screenshot & perbandingan N+1</li>
+        <li>☐ P3 — Feature test 4 kasus PASSED</li>
+        <li>☐ P4 — Locust report 100 & 500 users</li>
+        <li>☐ P5 — Sentry dashboard error tercatat</li>
+        <li>☐ P6 — Dashboard monitoring berjalan</li>
+        <li>☐ P7 — Log JSON terbentuk dengan konteks</li>
+        <li>☐ P8 — Link budget DWDM dihitung</li>
+      </ul>
+
+      <div class="callout success">
+        <strong>🎉 Selamat!</strong>
+        Anda telah menyelesaikan 8 praktikum yang membuktikan 8 unit kompetensi BNSP Senior Programmer. Simpan folder <code>bukti-praktikum/</code> sebagai lampiran portofolio asesmen.
+      </div>
+    </section>
+
+    <div class="footer">
+      <p><strong>Praktikum SiLacak v2.0</strong> — BNSP Senior Programmer</p>
+      <p>PT Sinar Logistik Nusantara (fiktif) • 8 Praktikum • ~6 Jam</p>
+    </div>
+
+  </main>
+</div>
+
+<script>
+// Active sidebar link on scroll
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.pageYOffset >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Smooth scroll
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SiLacak — Dokumentasi Proyek | BNSP Senior Programmer</title>
+<style>
+:root {
+  --primary: #1e40af;
+  --primary-light: #3b82f6;
+  --primary-dark: #1e3a8a;
+  --accent: #8b5cf6;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --code-bg: #1e293b;
+  --code-text: #e2e8f0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.6;
+  color: var(--gray-700);
+  background: var(--gray-50);
+}
+
+/* Layout */
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  min-height: 100vh;
+}
+.sidebar {
+  background: var(--gray-900);
+  color: #fff;
+  padding: 24px 0;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+.sidebar-header {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid #374151;
+}
+.sidebar-header h1 {
+  font-size: 22px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+.sidebar-header p {
+  font-size: 12px;
+  color: #9ca3af;
+}
+.sidebar nav { padding: 16px 0; }
+.sidebar nav a {
+  display: block;
+  padding: 8px 24px;
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 13px;
+  border-left: 3px solid transparent;
+  transition: all 0.15s;
+}
+.sidebar nav a:hover {
+  background: #1f2937;
+  color: #fff;
+  border-left-color: var(--primary-light);
+}
+.sidebar nav a.active {
+  background: #1f2937;
+  color: #fff;
+  border-left-color: var(--primary-light);
+  font-weight: 600;
+}
+.sidebar nav .section-title {
+  padding: 16px 24px 8px;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #6b7280;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.main {
+  padding: 40px 48px;
+  max-width: 1100px;
+}
+
+/* Header */
+.page-header {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  color: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 40px;
+}
+.page-header h1 {
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: #fff;
+}
+.page-header p {
+  color: #dbeafe;
+  font-size: 16px;
+}
+.page-header .badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Section */
+section {
+  background: #fff;
+  padding: 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+section h2 {
+  font-size: 24px;
+  color: var(--gray-900);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+section h2 .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+}
+section h3 {
+  font-size: 18px;
+  color: var(--gray-900);
+  margin: 24px 0 12px;
+}
+section h4 {
+  font-size: 15px;
+  color: var(--gray-700);
+  margin: 16px 0 8px;
+}
+section p { margin-bottom: 12px; }
+section ul, section ol { margin: 12px 0 12px 24px; }
+section li { margin-bottom: 6px; }
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+th {
+  background: var(--gray-100);
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: var(--gray-900);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+td {
+  padding: 12px;
+  border-top: 1px solid var(--gray-200);
+  vertical-align: top;
+}
+tr:hover td { background: var(--gray-50); }
+
+/* Code */
+code {
+  background: var(--gray-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--danger);
+}
+pre {
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 16px 20px;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+pre code {
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-size: 13px;
+}
+
+/* Callout */
+.callout {
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-left: 4px solid;
+  font-size: 14px;
+}
+.callout.info { background: #eff6ff; border-color: var(--primary-light); }
+.callout.success { background: #ecfdf5; border-color: var(--success); }
+.callout.warning { background: #fffbeb; border-color: var(--warning); }
+.callout.danger { background: #fef2f2; border-color: var(--danger); }
+.callout strong { display: block; margin-bottom: 4px; }
+
+/* Diagram */
+.diagram {
+  background: var(--gray-900);
+  color: #e2e8f0;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+  overflow-x: auto;
+  line-height: 1.5;
+  white-space: pre;
+}
+
+/* Grid */
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 900px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main { padding: 24px; }
+}
+
+/* Card */
+.card {
+  background: var(--gray-50);
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--gray-200);
+}
+.card h4 { margin-top: 0; }
+.card .stat {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  margin: 4px 0;
+}
+
+/* Badge types */
+.badge-success { background: #d1fae5; color: #065f46; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.badge-warning { background: #fef3c7; color: #92400e; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.badge-danger { background: #fee2e2; color: #991b1b; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+.badge-info { background: #dbeafe; color: #1e40af; padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; }
+
+/* Print */
+@media print {
+  .sidebar { display: none; }
+  .layout { grid-template-columns: 1fr; }
+  section { box-shadow: none; border: 1px solid var(--gray-200); page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h1>🚚 SiLacak</h1>
+      <p>Dokumentasi Proyek v1.0</p>
+    </div>
+    <nav>
+      <div class="section-title">Pendahuluan</div>
+      <a href="#ringkasan">1. Ringkasan Proyek</a>
+      <a href="#latar-belakang">2. Latar Belakang</a>
+      <a href="#ruang-lingkup">3. Ruang Lingkup</a>
+
+      <div class="section-title">Arsitektur</div>
+      <a href="#arsitektur">4. Arsitektur Sistem</a>
+      <a href="#teknologi">5. Teknologi & Library</a>
+      <a href="#database">6. Struktur Database</a>
+      <a href="#folder">7. Struktur Folder</a>
+
+      <div class="section-title">Alur & Fitur</div>
+      <a href="#alur-bisnis">8. Alur Bisnis</a>
+      <a href="#alur-mvc">9. Alur Request-Response</a>
+      <a href="#fitur">10. Fitur Aplikasi</a>
+      <a href="#aturan-bisnis">11. Aturan Bisnis</a>
+
+      <div class="section-title">Kualitas</div>
+      <a href="#keamanan">12. Keamanan</a>
+      <a href="#pengujian">13. Pengujian</a>
+      <a href="#environment">14. Multi-Environment</a>
+      <a href="#logging">15. Logging & Alert</a>
+
+      <div class="section-title">BNSP</div>
+      <a href="#bnsp">16. Pemetaan Unit Kompetensi</a>
+      <a href="#instalasi">17. Cara Instalasi</a>
+      <a href="#akun">18. Akun Demo</a>
+      <a href="#checklist">19. Checklist Portofolio</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <div class="page-header">
+      <h1>📦 SiLacak — Platform Pelacakan Pengiriman</h1>
+      <p>Dokumentasi Lengkap Proyek untuk Sertifikasi Senior Programmer BNSP</p>
+      <div class="badges">
+        <span class="badge">Laravel 13</span>
+        <span class="badge">MySQL 8</span>
+        <span class="badge">PHP 8.2+</span>
+        <span class="badge">TailwindCSS</span>
+        <span class="badge">29 Unit Kompetensi</span>
+      </div>
+    </div>
+
+    <!-- 1. RINGKASAN -->
+    <section id="ringkasan">
+      <h2><span class="num">1</span> Ringkasan Proyek</h2>
+      <p><strong>SiLacak</strong> (Sistem Lacak Paket) adalah platform pelacakan pengiriman berbasis web dan API yang dibangun untuk menggantikan sistem pencatatan manual di <strong>PT Sinar Logistik Nusantara</strong> (fiktif).</p>
+
+      <div class="grid grid-3" style="margin: 20px 0;">
+        <div class="card">
+          <p style="font-size:12px;color:var(--gray-500);">Skala Bisnis</p>
+          <div class="stat">120</div>
+          <p style="font-size:12px;">Cabang</p>
+        </div>
+        <div class="card">
+          <p style="font-size:12px;color:var(--gray-500);">Volume Harian</p>
+          <div class="stat">15K</div>
+          <p style="font-size:12px;">Paket/hari</p>
+        </div>
+        <div class="card">
+          <p style="font-size:12px;color:var(--gray-500);">Target</p>
+          <div class="stat">500</div>
+          <p style="font-size:12px;">Concurrent user</p>
+        </div>
+      </div>
+
+      <table>
+        <tr><th style="width: 220px;">Aspek</th><th>Keterangan</th></tr>
+        <tr><td><strong>Nama Aplikasi</strong></td><td>SiLacak (Sistem Lacak Paket)</td></tr>
+        <tr><td><strong>Klien</strong></td><td>PT Sinar Logistik Nusantara (fiktif)</td></tr>
+        <tr><td><strong>Target Performa</strong></td><td>p95 &lt; 2 detik, error rate &lt; 1%</td></tr>
+        <tr><td><strong>Timeline</strong></td><td>2 minggu menuju go-live</td></tr>
+        <tr><td><strong>Stack</strong></td><td>Laravel 13 + MySQL + TailwindCSS</td></tr>
+      </table>
+    </section>
+
+    <!-- 2. LATAR BELAKANG -->
+    <section id="latar-belakang">
+      <h2><span class="num">2</span> Latar Belakang Bisnis</h2>
+
+      <h3>2.1 Permasalahan Sebelumnya</h3>
+      <table>
+        <tr><th>Masalah</th><th>Dampak</th></tr>
+        <tr><td>Status paket dicatat manual</td><td>Pelanggan tidak dapat melacak paketnya</td></tr>
+        <tr><td>Berat dibulatkan ke bawah (floor)</td><td>Kerugian: 1,3 kg ditagih 1 kg</td></tr>
+        <tr><td>Pencarian resi ±6 detik</td><td>Query riwayat dipanggil berulang tanpa indeks (N+1)</td></tr>
+        <tr><td>Password disimpan dengan MD5</td><td>Rentan brute-force dan rainbow table</td></tr>
+        <tr><td>Query SQL dirangkai dari input</td><td>Rentan SQL Injection</td></tr>
+        <tr><td>API key di repository</td><td>Kebocoran kredensial</td></tr>
+      </table>
+
+      <h3>2.2 Solusi SiLacak</h3>
+      <ul>
+        <li><strong>Pelacakan real-time</strong> berbasis web (publik) dan API</li>
+        <li><strong>Perhitungan ongkir otomatis</strong> dengan berat volumetrik & pembulatan ke atas</li>
+        <li><strong>Pencarian resi cepat</strong> (&lt; 200ms) dengan indeks dan eager loading</li>
+        <li><strong>Keamanan berlapis</strong>: bcrypt, CSRF, XSS protection, parameter binding</li>
+        <li><strong>Manajemen rahasia</strong> via <code>.env</code> dan <code>.gitignore</code></li>
+      </ul>
+    </section>
+
+    <!-- 3. RUANG LINGKUP -->
+    <section id="ruang-lingkup">
+      <h2><span class="num">3</span> Ruang Lingkup</h2>
+
+      <h3>3.1 Modul Inti</h3>
+      <ol>
+        <li><strong>Pelacakan Resi</strong> (publik) — cari status paket berdasarkan nomor resi</li>
+        <li><strong>Kalkulator Ongkir</strong> (publik) — hitung biaya berdasarkan berat & dimensi</li>
+        <li><strong>Manajemen Resi</strong> (internal) — CRUD resi oleh admin cabang</li>
+        <li><strong>Cetak Label PDF</strong> — label resi dengan QR code</li>
+        <li><strong>Dashboard</strong> — statistik operasional</li>
+        <li><strong>Logging & Alert</strong> — audit trail transaksi</li>
+      </ol>
+
+      <h3>3.2 Di Luar Ruang Lingkup</h3>
+      <ul>
+        <li>Mobile app native</li>
+        <li>Integrasi payment gateway</li>
+        <li>Fitur pergudangan (warehouse)</li>
+      </ul>
+    </section>
+
+    <!-- 4. ARSITEKTUR -->
+    <section id="arsitektur">
+      <h2><span class="num">4</span> Arsitektur Sistem</h2>
+
+      <h3>4.1 Pola Arsitektur</h3>
+      <p>SiLacak menggunakan <strong>MVC (Model-View-Controller)</strong> dengan <strong>Service Layer</strong> untuk logika bisnis kompleks.</p>
+
+      <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│                          CLIENT                             │
+│  (Browser / Postman / Mobile App / API Consumer)            │
+└────────────────────────┬────────────────────────────────────┘
+                         │ HTTP Request
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                      ROUTING (web.php)                      │
+│  Dispatch berdasarkan URL & HTTP method                     │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    MIDDLEWARE STACK                         │
+│  - CSRF Protection (VerifyCsrfToken)                        │
+│  - Auth (Authenticate)                                      │
+│  - Security Headers                                         │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    FORM REQUEST                             │
+│  Validasi input (SimpanResiRequest, dll)                    │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     CONTROLLER                              │
+│  Orkestrasi: panggil Service, kembalikan View               │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    SERVICE LAYER                            │
+│  - OngkirService (perhitungan biaya)                        │
+│  - ResiService (orkestrasi pembuatan resi)                  │
+│  - LabelService (generate PDF)                              │
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    ELOQUENT MODEL                           │
+│  ActiveRecord: Resi, Pelanggan, Cabang, Layanan, TrackingLog│
+└────────────────────────┬────────────────────────────────────┘
+                         │
+                         ▼
+┌─────────────────────────────────────────────────────────────┐
+│                    MySQL DATABASE                           │
+│  Query dengan PDO Parameter Binding                         │
+└─────────────────────────────────────────────────────────────┘</div>
+
+      <h3>4.2 Analogi Restoran</h3>
+      <table>
+        <tr><th>Komponen</th><th>Analogi</th><th>Tanggung Jawab</th></tr>
+        <tr><td><strong>Controller</strong></td><td>Pelayan</td><td>Menerima pesanan, koordinasi</td></tr>
+        <tr><td><strong>Model</strong></td><td>Koki</td><td>Menyiapkan data dari dapur (database)</td></tr>
+        <tr><td><strong>View</strong></td><td>Meja saji</td><td>Menyajikan hidangan ke pelanggan</td></tr>
+        <tr><td><strong>Service</strong></td><td>Chef de partie</td><td>Resep khusus (perhitungan)</td></tr>
+      </table>
+    </section>
+
+    <!-- 5. TEKNOLOGI -->
+    <section id="teknologi">
+      <h2><span class="num">5</span> Teknologi & Library</h2>
+
+      <h3>5.1 Stack Utama</h3>
+      <table>
+        <tr><th>Komponen</th><th>Versi</th><th>Fungsi</th></tr>
+        <tr><td><strong>PHP</strong></td><td>≥ 8.2</td><td>Bahasa backend</td></tr>
+        <tr><td><strong>Laravel</strong></td><td>13.x</td><td>Framework MVC</td></tr>
+        <tr><td><strong>MySQL</strong></td><td>8.x</td><td>Database relasional</td></tr>
+        <tr><td><strong>Composer</strong></td><td>2.x</td><td>Dependency manager</td></tr>
+        <tr><td><strong>TailwindCSS</strong></td><td>CDN</td><td>Utility-first CSS</td></tr>
+        <tr><td><strong>Node.js</strong></td><td>20.x</td><td>Build tools (Vite)</td></tr>
+      </table>
+
+      <h3>5.2 Package Composer</h3>
+      <table>
+        <tr><th>Package</th><th>Versi</th><th>Fungsi</th><th>Alasan</th></tr>
+        <tr><td><code>laravel/framework</code></td><td>13.x</td><td>Framework inti</td><td>Standar industri, ekosistem luas</td></tr>
+        <tr><td><code>barryvdh/laravel-dompdf</code></td><td>^3.1</td><td>Generate PDF</td><td>Ringan, mudah, aktif dimaintain</td></tr>
+        <tr><td><code>simplesoftwareio/simple-qrcode</code></td><td>^4.2</td><td>QR code</td><td>API sederhana, dukung SVG</td></tr>
+        <tr><td><code>milon/barcode</code></td><td>^13.5</td><td>Barcode</td><td>Support berbagai format</td></tr>
+        <tr><td><code>laravel/pint</code></td><td>^1.32</td><td>Code style fixer</td><td>Otomasi PSR-12</td></tr>
+        <tr><td><code>phpunit/phpunit</code></td><td>^12.5</td><td>Unit testing</td><td>Standar pengujian PHP</td></tr>
+      </table>
+
+      <h3>5.3 Alasan Pemilihan Stack</h3>
+      <table>
+        <tr><th>Teknologi</th><th>Alasan Rasional</th></tr>
+        <tr><td><strong>Laravel</strong></td><td>Ekosistem lengkap, dokumentasi terbaik, komunitas besar, mendukung 29 unit kompetensi BNSP</td></tr>
+        <tr><td><strong>MySQL</strong></td><td>RDBMS standar industri, performa tinggi, dukungan ACID</td></tr>
+        <tr><td><strong>Eloquent ORM</strong></td><td>Native PDO binding (anti SQLi), relasi deklaratif, query scope</td></tr>
+        <tr><td><strong>Blade</strong></td><td>Auto-escape XSS, komponen reusable</td></tr>
+        <tr><td><strong>dompdf</strong></td><td>Pure PHP, tidak butuh headless browser, cocok untuk label</td></tr>
+        <tr><td><strong>Tailwind</strong></td><td>Cepat prototyping, utility-first, responsive</td></tr>
+      </table>
+    </section>
+
+    <!-- 6. DATABASE -->
+    <section id="database">
+      <h2><span class="num">6</span> Struktur Database</h2>
+
+      <h3>6.1 ERD (Entity Relationship Diagram)</h3>
+      <div class="diagram">┌─────────────┐       ┌──────────────┐       ┌─────────────┐
+│   users     │       │   cabang     │       │  pelanggan  │
+├─────────────┤       ├──────────────┤       ├─────────────┤
+│ id (PK)     │       │ id (PK)      │       │ id (PK)     │
+│ name        │       │ kode (UQ)    │       │ nama        │
+│ email (UQ)  │       │ nama         │       │ email (UQ)  │
+│ password    │       │ kota         │       │ telepon     │
+└──────┬──────┘       └──────┬───────┘       │ is_member   │
+       │                     │                └──────┬──────┘
+       │ 1:N                 │ 1:N                   │ 1:N
+       │                     │                       │
+       ▼                     ▼                       ▼
+┌─────────────────────────────────────────────────────────────┐
+│                          resi                               │
+├─────────────────────────────────────────────────────────────┤
+│ id (PK)                                                     │
+│ nomor_resi (UQ, IDX)                                        │
+│ pelanggan_id (FK → pelanggan, RESTRICT)                     │
+│ cabang_asal_id (FK → cabang, RESTRICT)                      │
+│ cabang_tujuan_id (FK → cabang, RESTRICT)                    │
+│ layanan_id (FK → layanan, RESTRICT)                         │
+│ user_id (FK → users, CASCADE)                               │
+│ nama_penerima, telepon_penerima, alamat_penerima            │
+│ berat_aktual, panjang, lebar, tinggi, berat_tagih           │
+│ nilai_barang, biaya_dasar, diskon, asuransi, total_biaya    │
+│ status (ENUM, IDX), catatan                                 │
+└──────────────────────────┬──────────────────────────────────┘
+                           │ 1:N
+                           ▼
+              ┌─────────────────────────────┐
+              │      tracking_log           │
+              ├─────────────────────────────┤
+              │ id (PK)                     │
+              │ resi_id (FK → resi, CASCADE)│
+              │ user_id (FK → users, NULL)  │
+              │ status, lokasi, keterangan  │
+              └─────────────────────────────┘
+
+              ┌─────────────────────────────┐
+              │         layanan             │
+              ├─────────────────────────────┤
+              │ id (PK)                     │
+              │ kode (UQ), nama             │
+              │ tarif_per_kg, min_kg        │
+              │ asuransi_persen             │
+              │ asuransi_min_nilai          │
+              │ aktif                       │
+              └─────────────────────────────┘</div>
+
+      <h3>6.2 Kebijakan Foreign Key</h3>
+      <table>
+        <tr><th>Relasi</th><th>ON DELETE</th><th>Alasan</th></tr>
+        <tr><td><code>resi.pelanggan_id</code></td><td><span class="badge-warning">RESTRICT</span></td><td>Cegah hapus pelanggan yang masih punya resi</td></tr>
+        <tr><td><code>resi.cabang_asal_id</code></td><td><span class="badge-warning">RESTRICT</span></td><td>Cabang tidak boleh dihapus jika masih ada resi</td></tr>
+        <tr><td><code>resi.layanan_id</code></td><td><span class="badge-warning">RESTRICT</span></td><td>Layanan tidak boleh dihapus jika masih dipakai</td></tr>
+        <tr><td><code>resi.user_id</code></td><td><span class="badge-danger">CASCADE</span></td><td>Resi ikut terhapus jika user dihapus</td></tr>
+        <tr><td><code>tracking_log.resi_id</code></td><td><span class="badge-danger">CASCADE</span></td><td>Log ikut terhapus jika resi dihapus</td></tr>
+        <tr><td><code>tracking_log.user_id</code></td><td><span class="badge-info">SET NULL</span></td><td>Log tetap ada meski user dihapus</td></tr>
+      </table>
+
+      <h3>6.3 Tipe Data & Alasan</h3>
+      <table>
+        <tr><th>Kolom</th><th>Tipe</th><th>Alasan</th></tr>
+        <tr><td><code>nomor_resi</code></td><td>VARCHAR(30)</td><td>Cukup untuk format SLC-YYYYMMDD-XXXX</td></tr>
+        <tr><td><code>berat_aktual</code></td><td>DECIMAL(8,2)</td><td>Presisi 2 desimal, tanpa galat floating point</td></tr>
+        <tr><td><code>total_biaya</code></td><td>DECIMAL(12,2)</td><td>Uang: <strong>wajib</strong> DECIMAL, hindari FLOAT</td></tr>
+        <tr><td><code>status</code></td><td>ENUM</td><td>Batasi nilai valid, hemat penyimpanan</td></tr>
+        <tr><td><code>is_member</code></td><td>BOOLEAN</td><td>Nilai biner sederhana</td></tr>
+      </table>
+
+      <div class="callout danger">
+        <strong>⚠️ Penting: Jangan Pakai FLOAT untuk Uang</strong>
+        <code>0.1 + 0.2 = 0.3000000000000004</code> di floating point. Selisih Rp 1 pada 1 juta transaksi = kerugian <strong>Rp 1.000.000</strong>. Gunakan <code>DECIMAL(12,2)</code>.
+      </div>
+
+      <h3>6.4 Indeks Database</h3>
+      <table>
+        <tr><th>Tabel</th><th>Kolom</th><th>Tipe</th><th>Alasan</th></tr>
+        <tr><td>resi</td><td><code>nomor_resi</code></td><td>UNIQUE</td><td>Pencarian utama (WHERE)</td></tr>
+        <tr><td>resi</td><td><code>status</code></td><td>INDEX</td><td>Filter dashboard</td></tr>
+        <tr><td>resi</td><td><code>created_at</code></td><td>INDEX</td><td>Sortir & laporan</td></tr>
+        <tr><td>pelanggan</td><td><code>email</code></td><td>UNIQUE</td><td>Login & cek duplikat</td></tr>
+        <tr><td>cabang</td><td><code>kota</code></td><td>INDEX</td><td>Filter wilayah</td></tr>
+      </table>
+    </section>
+
+    <!-- 7. STRUKTUR FOLDER -->
+    <section id="folder">
+      <h2><span class="num">7</span> Struktur Folder</h2>
+
+      <div class="diagram">silacak/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── AuthController.php
+│   │   │   ├── DashboardController.php
+│   │   │   ├── TrackingController.php
+│   │   │   ├── TarifController.php
+│   │   │   ├── ResiController.php
+│   │   │   └── LabelController.php
+│   │   ├── Middleware/
+│   │   │   └── SecurityHeadersMiddleware.php
+│   │   └── Requests/
+│   │       ├── SimpanResiRequest.php
+│   │       └── HitungOngkirRequest.php
+│   ├── Models/
+│   │   ├── User.php
+│   │   ├── Cabang.php
+│   │   ├── Pelanggan.php
+│   │   ├── Layanan.php
+│   │   ├── Resi.php
+│   │   └── TrackingLog.php
+│   ├── Services/
+│   │   ├── OngkirService.php
+│   │   ├── ResiService.php
+│   │   └── LabelService.php
+│   └── Providers/
+│       └── AppServiceProvider.php
+├── database/
+│   ├── migrations/
+│   │   ├── xxxx_create_cabang_table.php
+│   │   ├── xxxx_create_pelanggan_table.php
+│   │   ├── xxxx_create_layanan_table.php
+│   │   ├── xxxx_create_resi_table.php
+│   │   └── xxxx_create_tracking_log_table.php
+│   ├── seeders/
+│   │   ├── DatabaseSeeder.php
+│   │   ├── UserSeeder.php
+│   │   ├── CabangSeeder.php
+│   │   ├── LayananSeeder.php
+│   │   └── PelangganSeeder.php
+│   └── factories/
+│       └── PelangganFactory.php
+├── resources/views/
+│   ├── layouts/
+│   │   └── app.blade.php
+│   ├── auth/
+│   │   ├── login.blade.php
+│   │   └── register.blade.php
+│   ├── dashboard.blade.php
+│   ├── tracking/
+│   │   ├── index.blade.php
+│   │   └── hasil.blade.php
+│   ├── tarif/
+│   │   ├── index.blade.php
+│   │   └── hasil.blade.php
+│   ├── resi/
+│   │   ├── index.blade.php
+│   │   ├── create.blade.php
+│   │   ├── show.blade.php
+│   │   └── edit.blade.php
+│   └── label/
+│       └── resi.blade.php
+├── routes/
+│   └── web.php
+├── storage/
+│   └── logs/
+│       ├── laravel.log
+│       └── alert.log
+└── .env</div>
+    </section>
+
+    <!-- 8. ALUR BISNIS -->
+    <section id="alur-bisnis">
+      <h2><span class="num">8</span> Alur Bisnis Utama</h2>
+
+      <h3>8.1 Alur Buat Resi</h3>
+      <div class="diagram">┌─────────────┐
+│ Admin Cabang│
+└──────┬──────┘
+       │ 1. Isi form resi (pelanggan, tujuan, berat, dimensi, nilai barang)
+       ▼
+┌─────────────────────────┐
+│ SimpanResiRequest       │ ← Validasi: required, exists, different, numeric
+└──────────┬──────────────┘
+           │ 2. Data valid
+           ▼
+┌─────────────────────────┐
+│ ResiController@store    │
+└──────────┬──────────────┘
+           │ 3. Panggil ResiService
+           ▼
+┌──────────────────────────────────────────────┐
+│ ResiService::buatResi()                      │
+│                                               │
+│  3a. OngkirService::hitungBeratTagih()       │
+│      → max(berat_aktual, P×L×T/6000)         │
+│      → ceil() → bulat ke atas                │
+│                                               │
+│  3b. OngkirService::hitung()                 │
+│      → biaya_dasar = berat × tarif           │
+│      → diskon 10% jika member                │
+│      → asuransi 0,2% jika > Rp 1jt           │
+│      → total = dasar − diskon + asuransi     │
+│                                               │
+│  3c. Resi::buatNomorResi()                   │
+│      → SLC-YYYYMMDD-XXXX                     │
+│                                               │
+│  3d. Resi::create()                          │
+│                                               │
+│  3e. TrackingLog::create()                   │
+│      → status: pending, lokasi: kota asal    │
+│                                               │
+│  3f. Log::info('resi.dibuat', [...])         │
+└──────────┬───────────────────────────────────┘
+           │ 4. Resi tersimpan
+           ▼
+┌─────────────────────────┐
+│ Redirect ke resi.show   │
+│ + Flash sukses          │
+└─────────────────────────┘</div>
+
+      <h3>8.2 Alur Lacak Resi (Publik)</h3>
+      <div class="diagram">┌─────────────┐
+│  Pelanggan  │
+└──────┬──────┘
+       │ 1. Masukkan nomor resi
+       ▼
+┌─────────────────────────┐
+│ TrackingController@cari │
+└──────────┬──────────────┘
+           │ 2. Validasi nomor_resi (required, max:30)
+           ▼
+┌──────────────────────────────────────────────┐
+│ Resi::with([...])->where('nomor_resi')->first│
+│ → Eager loading (anti N+1)                   │
+│ → Include: pelanggan, cabang, layanan, log   │
+└──────────┬───────────────────────────────────┘
+           │ 3. Resi ditemukan
+           ▼
+┌─────────────────────────┐
+│ View: tracking.hasil    │
+│ → Timeline riwayat      │
+└─────────────────────────┘</div>
+
+      <h3>8.3 Alur Hitung Ongkir (Publik)</h3>
+      <div class="diagram">┌─────────────┐
+│  Pelanggan  │
+└──────┬──────┘
+       │ 1. Isi form (layanan, berat, dimensi, nilai, member?)
+       ▼
+┌─────────────────────────┐
+│ TarifController@hitung  │
+└──────────┬──────────────┘
+           │ 2. Validasi input
+           ▼
+┌──────────────────────────────────────────────┐
+│ OngkirService::hitungBeratTagih()            │
+│   → volumetric = P × L × T / 6000            │
+│   → berat_tagih = ceil(max(aktual, volumetric))│
+│                                               │
+│ OngkirService::hitung()                      │
+│   → min_kg enforcement (Kargo: 10 kg)        │
+│   → biaya = berat_final × tarif              │
+│   → diskon = 10% jika member                 │
+│   → asuransi = 0.2% × nilai (jika > 1jt)     │
+│   → total = biaya − diskon + asuransi        │
+└──────────┬───────────────────────────────────┘
+           │ 3. Tampilkan rincian
+           ▼
+┌─────────────────────────┐
+│ View: tarif.hasil       │
+└─────────────────────────┘</div>
+    </section>
+
+    <!-- 9. ALUR MVC -->
+    <section id="alur-mvc">
+      <h2><span class="num">9</span> Alur Request-Response (MVC)</h2>
+      <p>Contoh: <strong>User buka halaman <code>/resi</code></strong></p>
+
+      <div class="diagram">01. BROWSER
+    HTTP GET /resi
+    ↓
+02. ROUTING (routes/web.php)
+    Route::resource('resi', ResiController::class)
+    → Dispatch ke ResiController@index
+    ↓
+03. MIDDLEWARE
+    - web: Session, CSRF, Cookie
+    - auth: Cek login
+    ↓
+04. CONTROLLER (ResiController@index)
+    $resi = Resi::with([...])->cari($q)->paginate(15)
+    ↓
+05. MODEL (Eloquent)
+    SELECT * FROM resi
+    LEFT JOIN pelanggan ON ...
+    LEFT JOIN cabang ON ...
+    WHERE nomor_resi LIKE ?
+    LIMIT 15
+    ↓
+06. DATABASE (MySQL)
+    Eksekusi query dengan PDO binding
+    Return 15 rows
+    ↓
+07. VIEW (Blade)
+    resources/views/resi/index.blade.php
+    Render HTML + Tailwind
+    ↓
+08. RESPONSE
+    HTTP 200 OK
+    Content-Type: text/html
+    ↓
+09. BROWSER
+    Render halaman</div>
+    </section>
+
+    <!-- 10. FITUR -->
+    <section id="fitur">
+      <h2><span class="num">10</span> Fitur Aplikasi</h2>
+
+      <h3>10.1 Fitur Publik (Tanpa Login)</h3>
+      <table>
+        <tr><th>Fitur</th><th>Route</th><th>Deskripsi</th></tr>
+        <tr><td>Landing/Lacak</td><td><code>GET /</code></td><td>Form input nomor resi</td></tr>
+        <tr><td>Hasil Lacak</td><td><code>GET /lacak?nomor_resi=...</code></td><td>Timeline perjalanan paket</td></tr>
+        <tr><td>Cek Ongkir</td><td><code>GET /tarif</code></td><td>Kalkulator biaya kirim</td></tr>
+        <tr><td>Hitung Ongkir</td><td><code>POST /tarif/hitung</code></td><td>Rincian biaya</td></tr>
+        <tr><td>Login</td><td><code>GET /login</code></td><td>Form login</td></tr>
+        <tr><td>Register</td><td><code>GET /register</code></td><td>Form registrasi</td></tr>
+      </table>
+
+      <h3>10.2 Fitur Terautentikasi</h3>
+      <table>
+        <tr><th>Fitur</th><th>Route</th><th>Deskripsi</th></tr>
+        <tr><td>Dashboard</td><td><code>GET /dashboard</code></td><td>Statistik operasional</td></tr>
+        <tr><td>Daftar Resi</td><td><code>GET /resi</code></td><td>Tabel resi + filter + paginasi</td></tr>
+        <tr><td>Buat Resi</td><td><code>GET /resi/create</code></td><td>Form buat resi baru</td></tr>
+        <tr><td>Simpan Resi</td><td><code>POST /resi</code></td><td>Proses simpan</td></tr>
+        <tr><td>Detail Resi</td><td><code>GET /resi/{id}</code></td><td>Detail + tracking log</td></tr>
+        <tr><td>Ubah Resi</td><td><code>GET /resi/{id}/edit</code></td><td>Form edit</td></tr>
+        <tr><td>Update Resi</td><td><code>PUT /resi/{id}</code></td><td>Proses update</td></tr>
+        <tr><td>Hapus Resi</td><td><code>DELETE /resi/{id}</code></td><td>Hapus resi</td></tr>
+        <tr><td>Cetak Label</td><td><code>GET /resi/{id}/label</code></td><td>PDF label + QR</td></tr>
+        <tr><td>Logout</td><td><code>POST /logout</code></td><td>Keluar</td></tr>
+      </table>
+    </section>
+
+    <!-- 11. ATURAN BISNIS -->
+    <section id="aturan-bisnis">
+      <h2><span class="num">11</span> Aturan Bisnis</h2>
+
+      <h3>11.1 Perhitungan Berat</h3>
+      <table>
+        <tr><th>Layanan</th><th>Tarif/kg</th><th>Min. Kg</th><th>Keterangan</th></tr>
+        <tr><td><strong>Reguler</strong></td><td>Rp 9.000</td><td>1 kg</td><td>Standar</td></tr>
+        <tr><td><strong>Express</strong></td><td>Rp 15.000</td><td>1 kg</td><td>Prioritas</td></tr>
+        <tr><td><strong>Kargo</strong></td><td>Rp 6.000</td><td>10 kg</td><td>Barang besar</td></tr>
+        <tr><td><strong>Same Day</strong></td><td>Rp 25.000</td><td>1 kg</td><td>Sampai hari ini</td></tr>
+      </table>
+
+      <h4>Rumus Berat Tagih:</h4>
+      <pre><code>berat_volumetrik = (P × L × T) / 6000
+berat_tagih      = ceil(max(berat_aktual, berat_volumetrik))
+berat_final      = max(berat_tagih, min_kg)</code></pre>
+
+      <h4>Contoh:</h4>
+      <ul>
+        <li>Berat aktual 1,3 kg → dibulatkan <strong>2 kg</strong> (perbaikan bug floor)</li>
+        <li>Berat aktual 3 kg, dimensi 40×30×20 cm → volumetrik 4 kg → tagih <strong>4 kg</strong></li>
+        <li>Kargo 5 kg → tagih <strong>10 kg</strong> (minimum)</li>
+      </ul>
+
+      <h3>11.2 Diskon & Asuransi</h3>
+      <table>
+        <tr><th>Kondisi</th><th>Perlakuan</th></tr>
+        <tr><td>Pelanggan member</td><td>Diskon 10% dari biaya dasar</td></tr>
+        <tr><td>Nilai barang &gt; Rp 1.000.000</td><td>Asuransi 0,2% dari nilai barang</td></tr>
+        <tr><td>Nilai barang ≤ Rp 1.000.000</td><td>Tanpa asuransi</td></tr>
+      </table>
+
+      <h4>Rumus Total:</h4>
+      <pre><code>total = (berat_final × tarif) − diskon + asuransi</code></pre>
+
+      <h3>11.3 Nomor Resi</h3>
+      <p>Format: <strong>SLC-YYYYMMDD-XXXX</strong></p>
+      <ul>
+        <li><code>SLC</code> — prefix SiLacak</li>
+        <li><code>YYYYMMDD</code> — tanggal pembuatan</li>
+        <li><code>XXXX</code> — sequence 4 digit, reset tiap hari</li>
+      </ul>
+      <p>Contoh: <code>SLC-20260929-0001</code></p>
+
+      <h3>11.4 Status Resi</h3>
+      <table>
+        <tr><th>Status</th><th>Arti</th></tr>
+        <tr><td><span class="badge-info">pending</span></td><td>Resi dibuat, belum pickup</td></tr>
+        <tr><td><span class="badge-info">pickup</span></td><td>Kurir menjemput paket</td></tr>
+        <tr><td><span class="badge-warning">transit</span></td><td>Dalam perjalanan</td></tr>
+        <tr><td><span class="badge-warning">delivery</span></td><td>Kurir mengantar ke penerima</td></tr>
+        <tr><td><span class="badge-success">terkirim</span></td><td>Paket diterima</td></tr>
+        <tr><td><span class="badge-danger">gagal</span></td><td>Pengiriman gagal</td></tr>
+      </table>
+    </section>
+
+    <!-- 12. KEAMANAN -->
+    <section id="keamanan">
+      <h2><span class="num">12</span> Keamanan Aplikasi</h2>
+
+      <h3>12.1 CIA Triad</h3>
+      <table>
+        <tr><th>Pilar</th><th>Implementasi</th></tr>
+        <tr><td><strong>Confidentiality</strong></td><td>Bcrypt password, <code>.env</code> protection, session encryption</td></tr>
+        <tr><td><strong>Integrity</strong></td><td>Foreign key constraints, Form Request validation, CSRF token</td></tr>
+        <tr><td><strong>Availability</strong></td><td>Query optimization, indeks, caching, rate limiting</td></tr>
+      </table>
+
+      <h3>12.2 Mitigasi OWASP Top 10</h3>
+      <table>
+        <tr><th>Ancaman</th><th>Mitigasi Laravel</th></tr>
+        <tr><td><strong>SQL Injection</strong></td><td>Eloquent PDO Parameter Binding (<code>where('nama', $input)</code>)</td></tr>
+        <tr><td><strong>CSRF</strong></td><td>Direktif <code>@csrf</code> + middleware <code>VerifyCsrfToken</code></td></tr>
+        <tr><td><strong>XSS</strong></td><td>Blade auto-escape <code>{{ $var }}</code> → <code>htmlspecialchars()</code></td></tr>
+        <tr><td><strong>Broken Auth</strong></td><td>Bcrypt hashing, session regeneration, rate limiting</td></tr>
+        <tr><td><strong>Sensitive Data</strong></td><td><code>.env</code> di <code>.gitignore</code>, <code>APP_DEBUG=false</code> di produksi</td></tr>
+        <tr><td><strong>Security Misconfig</strong></td><td>Security Headers Middleware</td></tr>
+        <tr><td><strong>Vulnerable Components</strong></td><td><code>composer audit</code> rutin</td></tr>
+      </table>
+
+      <h3>12.3 Contoh Kode Aman</h3>
+      <pre><code>// ✅ AMAN: Parameter binding otomatis
+$resi = Resi::where('nomor_resi', $request->nomor_resi)->first();
+
+// ❌ BERBAHAYA: String interpolation
+$resi = DB::select("SELECT * FROM resi WHERE nomor_resi = '{$request->nomor_resi}'");</code></pre>
+
+      <pre><code>{{-- ✅ AMAN: Auto-escape --}}
+{{ $userInput }}
+
+{{-- ❌ BERBAHAYA: Raw output --}}
+{!! $userInput !!}</code></pre>
+
+      <h3>12.4 Security Headers</h3>
+      <table>
+        <tr><th>Header</th><th>Nilai</th><th>Fungsi</th></tr>
+        <tr><td><code>X-Frame-Options</code></td><td>SAMEORIGIN</td><td>Cegah clickjacking</td></tr>
+        <tr><td><code>X-Content-Type-Options</code></td><td>nosniff</td><td>Cegah MIME sniffing</td></tr>
+        <tr><td><code>Referrer-Policy</code></td><td>strict-origin-when-cross-origin</td><td>Kontrol referrer</td></tr>
+      </table>
+    </section>
+
+    <!-- 13. PENGUJIAN -->
+    <section id="pengujian">
+      <h2><span class="num">13</span> Pengujian</h2>
+
+      <h3>13.1 Piramida Pengujian</h3>
+      <div class="diagram">              ┌─────────────┐
+              │  Manual UAT │  ← Paling sedikit
+              ├─────────────┤
+              │   Feature   │  ← Menengah
+              │  & Integrasi│
+              ├─────────────┤
+              │    Unit     │  ← Terbanyak
+              │   Testing   │     Cepat & terisolasi
+              └─────────────┘</div>
+
+      <h3>13.2 Jenis Pengujian</h3>
+      <table>
+        <tr><th>Jenis</th><th>Pertanyaan Kunci</th><th>Contoh</th></tr>
+        <tr><td><strong>Unit Test</strong></td><td>Apakah logika berfungsi?</td><td><code>OngkirService::hitung()</code> 1,3 kg → 2 kg</td></tr>
+        <tr><td><strong>Feature Test</strong></td><td>Apakah komponen terintegrasi?</td><td>POST <code>/resi</code> → tersimpan di DB</td></tr>
+        <tr><td><strong>System Test</strong></td><td>Apakah alur utuh berhasil?</td><td>Login → Buat Resi → Lacak → Logout</td></tr>
+        <tr><td><strong>Stress Test</strong></td><td>Kapan sistem patah?</td><td>100 user concurrent ke <code>/laporan</code></td></tr>
+      </table>
+
+      <h3>13.3 Contoh Unit Test</h3>
+      <pre><code>public function test_perhitungan_berat_tagih_dibulatkan_ke_atas()
+{
+    $service = new OngkirService();
+    $hasil = $service->hitungBeratTagih(1.3);
+    $this->assertEquals(2.0, $hasil); // bukan 1.0 (bug lama)
+}
+
+public function test_asuransi_aktif_jika_nilai_barang_diatas_1_juta()
+{
+    $service = new OngkirService();
+    $layanan = Layanan::factory()->make(['tarif_per_kg' => 9000]);
+    $hasil = $service->hitung($layanan, 2, 2_000_000, false);
+    $this->assertEquals(4000.0, $hasil['asuransi']); // 0.2% × 2 juta
+}</code></pre>
+
+      <h3>13.4 Profiling dengan Debugbar</h3>
+      <table>
+        <tr><th>Kondisi</th><th>Jumlah Query</th><th>Durasi</th></tr>
+        <tr><td>Tanpa eager loading (N+1)</td><td>21</td><td>350–500 ms</td></tr>
+        <tr><td>Dengan <code>with()</code></td><td>3</td><td>80–110 ms</td></tr>
+        <tr><td>Dengan <code>with()</code> + indeks</td><td>3</td><td>&lt; 60 ms</td></tr>
+      </table>
+
+      <h3>13.5 Stress Testing dengan Locust</h3>
+      <pre><code>from locust import HttpUser, task, between
+
+class PenggunaSiLacak(HttpUser):
+    wait_time = between(1, 2)
+
+    def on_start(self):
+        self.client.post("/login", {
+            "email": "admin@silacak.test",
+            "password": "password"
+        })
+
+    @task(3)
+    def lihat_resi(self):
+        self.client.get("/resi", name="/resi")
+
+    @task(1)
+    def lacak_resi(self):
+        self.client.get("/lacak?nomor_resi=SLC-20260929-0001")</code></pre>
+
+      <p><strong>Metrik Target:</strong></p>
+      <ul>
+        <li>RPS (Requests per Second) — stabil</li>
+        <li>p95 Latency &lt; 2 detik</li>
+        <li>Failure Rate &lt; 1%</li>
+      </ul>
+    </section>
+
+    <!-- 14. ENVIRONMENT -->
+    <section id="environment">
+      <h2><span class="num">14</span> Multi-Environment</h2>
+
+      <h3>14.1 Three-Tier Environment</h3>
+      <table>
+        <tr><th>Parameter</th><th>Development</th><th>Staging</th><th>Production</th></tr>
+        <tr><td><code>APP_ENV</code></td><td>local</td><td>staging</td><td>production</td></tr>
+        <tr><td><code>APP_DEBUG</code></td><td>true</td><td>false</td><td><strong>false</strong></td></tr>
+        <tr><td><code>DB_HOST</code></td><td>127.0.0.1</td><td>db-staging.internal</td><td>db-prod.internal</td></tr>
+        <tr><td><code>CACHE_STORE</code></td><td>file</td><td>redis</td><td>redis</td></tr>
+        <tr><td><code>SESSION_ENCRYPT</code></td><td>false</td><td>true</td><td>true</td></tr>
+        <tr><td><code>SESSION_SECURE_COOKIE</code></td><td>false</td><td>true</td><td>true</td></tr>
+        <tr><td><code>MAIL_MAILER</code></td><td>log</td><td>smtp (sandbox)</td><td>smtp (live)</td></tr>
+      </table>
+
+      <h3>14.2 Konfigurasi Cache</h3>
+      <p>Setiap perubahan <code>.env</code> di staging/production:</p>
+      <pre><code>php artisan config:cache
+php artisan route:cache
+php artisan view:cache</code></pre>
+    </section>
+
+    <!-- 15. LOGGING -->
+    <section id="logging">
+      <h2><span class="num">15</span> Logging & Alert</h2>
+
+      <h3>15.1 Level Log (RFC-5424)</h3>
+      <table>
+        <tr><th>Level</th><th>Penggunaan</th><th>Contoh</th></tr>
+        <tr><td><span class="badge-info">DEBUG</span></td><td>Development</td><td>Query SQL detail</td></tr>
+        <tr><td><span class="badge-info">INFO</span></td><td>Transaksi normal</td><td><code>resi.dibuat</code>, <code>resi.diubah</code></td></tr>
+        <tr><td><span class="badge-warning">WARNING</span></td><td>Anomali minor</td><td>Validasi gagal berulang</td></tr>
+        <tr><td><span class="badge-danger">ERROR</span></td><td>Kegagalan operasional</td><td>Gagal simpan, koneksi DB putus</td></tr>
+        <tr><td><span class="badge-danger">CRITICAL</span></td><td>Sistem down</td><td>Database down, disk penuh</td></tr>
+        <tr><td><span class="badge-danger">ALERT</span></td><td>Perlu tindakan segera</td><td>Alert dikirim ke tim</td></tr>
+      </table>
+
+      <h3>15.2 Contoh Log Terstruktur</h3>
+      <pre><code>Log::info('resi.dibuat', [
+    'nomor_resi' => $resi->nomor_resi,
+    'pelanggan' => $resi->pelanggan->nama,
+    'total_biaya' => $resi->total_biaya,
+    'oleh' => auth()->user()->email,
+    'ip' => request()->ip(),
+    'waktu' => now()->toDateTimeString(),
+]);</code></pre>
+
+      <h3>15.3 Alert Notification</h3>
+      <div class="callout danger">
+        <strong>Alert Buruk (Noise):</strong>
+        "Error terjadi pada sistem!"
+      </div>
+      <div class="callout success">
+        <strong>Alert Informatif (Actionable):</strong>
+        "Galat simpan resi — user: admin@silacak.test — waktu: 14:32 WIB — trace: /logs/err-9912.log — IP: 10.0.0.5"
+      </div>
+
+      <h3>15.4 Integrasi Alert (Contoh)</h3>
+      <pre><code>// app/Providers/AppServiceProvider.php
+public function boot(): void
+{
+    Log::listen(function (MessageLogged $event) {
+        if (in_array($event->level, ['error', 'critical', 'emergency'])) {
+            Http::timeout(2)->post(config('services.telegram.url'), [
+                'chat_id' => config('services.telegram.chat_id'),
+                'text' => "[SiLacak][{$event->level}] {$event->message}",
+            ]);
+        }
+    });
+}</code></pre>
+    </section>
+
+    <!-- 16. BNSP -->
+    <section id="bnsp">
+      <h2><span class="num">16</span> Pemetaan Unit Kompetensi BNSP</h2>
+
+      <table>
+        <tr><th>No</th><th>Unit Kompetensi</th><th>Bukti Artefak</th></tr>
+        <tr><td>1</td><td>Perencanaan Sistem DWDM</td><td>Dokumen link budget Jakarta–Cikarang</td></tr>
+        <tr><td>2</td><td>Menganalisis Tools</td><td>Laporan perbandingan tools</td></tr>
+        <tr><td>3</td><td>Menggunakan Struktur Data</td><td>Algoritma antrean kurir, pencarian resi</td></tr>
+        <tr><td>4</td><td>Mengimplementasikan UI</td><td>View Blade + Tailwind</td></tr>
+        <tr><td>5</td><td>Merancang UX</td><td>Wireframe halaman lacak</td></tr>
+        <tr><td>6</td><td>ERD & Relasi</td><td>Diagram + migration files</td></tr>
+        <tr><td>7</td><td>Pemecahan ke Subrutin</td><td><code>OngkirService</code>, <code>ResiService</code></td></tr>
+        <tr><td>8</td><td>Reusable Subrutin</td><td>Query scope <code>cari()</code>, <code>status()</code>, <code>aktif()</code></td></tr>
+        <tr><td>9</td><td>Struktur File Rapi</td><td>Folder <code>app/Services</code>, <code>app/Http/Requests</code></td></tr>
+        <tr><td>10</td><td>Guidelines & Best Practices</td><td><code>pint.json</code>, PSR-12</td></tr>
+        <tr><td>11</td><td>OOP</td><td>Class, inheritance, enkapsulasi</td></tr>
+        <tr><td>12</td><td>Library Pre-Existing</td><td>dompdf, qrcode, barcode</td></tr>
+        <tr><td>13</td><td>Algoritma Pemrograman</td><td>Rumus berat tagih, paginasi</td></tr>
+        <tr><td>14</td><td>Dokumen Kode</td><td>PHPDoc di setiap service</td></tr>
+        <tr><td>15</td><td>Debugging</td><td>Perbaikan bug 1,3 kg → 2 kg</td></tr>
+        <tr><td>16</td><td>Source Code Versioning</td><td>Git log, branch, tag</td></tr>
+        <tr><td>17</td><td>Profiling</td><td>Debugbar report</td></tr>
+        <tr><td>18</td><td>Code Review</td><td>Matriks 6 dimensi</td></tr>
+        <tr><td>19</td><td>Pengujian Integrasi</td><td>Feature test PHPUnit</td></tr>
+        <tr><td>20</td><td>Pengujian Sistem</td><td>End-to-end test</td></tr>
+        <tr><td>21</td><td>Stress Test</td><td>Laporan Locust</td></tr>
+        <tr><td>22</td><td>UAT</td><td>Berita Acara UAT</td></tr>
+        <tr><td>23</td><td>Petunjuk Teknis</td><td>User manual</td></tr>
+        <tr><td>24</td><td>Paket Instalasi</td><td>Installer + checksum</td></tr>
+        <tr><td>25</td><td>Konfigurasi Environment</td><td>File <code>.env</code> per tier</td></tr>
+        <tr><td>26</td><td>Analisis Dampak</td><td>Dokumen dampak Same Day</td></tr>
+        <tr><td>27</td><td>Alert Notification</td><td>Telegram/Sentry integration</td></tr>
+        <tr><td>28</td><td>Pemantauan Resource</td><td>Dashboard monitoring</td></tr>
+        <tr><td>29</td><td>Fitur Logging</td><td>Log terstruktur JSON</td></tr>
+        <tr><td>30</td><td>Keamanan Informasi</td><td>Audit keamanan, OWASP mitigation</td></tr>
+      </table>
+    </section>
+
+    <!-- 17. INSTALASI -->
+    <section id="instalasi">
+      <h2><span class="num">17</span> Cara Instalasi</h2>
+
+      <h3>17.1 Prasyarat</h3>
+      <ul>
+        <li>PHP ≥ 8.2 dengan ekstensi: BCMath, Ctype, cURL, DOM, Fileinfo, JSON, Mbstring, OpenSSL, PCRE, PDO, Tokenizer, XML</li>
+        <li>Composer 2.x</li>
+        <li>MySQL 8.x atau MariaDB 10.3+</li>
+        <li>Node.js 20.x (opsional, untuk build Vite)</li>
+      </ul>
+
+      <h3>17.2 Langkah Instalasi</h3>
+
+      <h4>1. Clone Repository</h4>
+      <pre><code>git clone https://github.com/username/silacak.git
+cd silacak</code></pre>
+
+      <h4>2. Install Dependency</h4>
+      <pre><code>composer install
+npm install</code></pre>
+
+      <h4>3. Konfigurasi .env</h4>
+      <pre><code>cp .env.example .env
+php artisan key:generate</code></pre>
+      <p>Edit <code>.env</code>:</p>
+      <pre><code>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=silacak
+DB_USERNAME=root
+DB_PASSWORD=</code></pre>
+
+      <h4>4. Buat Database</h4>
+      <pre><code>CREATE DATABASE silacak CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</code></pre>
+
+      <h4>5. Migrate & Seed</h4>
+      <pre><code>php artisan migrate:fresh --seed</code></pre>
+
+      <h4>6. Build Asset (Opsional)</h4>
+      <pre><code>npm run build</code></pre>
+
+      <h4>7. Jalankan Server</h4>
+      <pre><code>php artisan serve</code></pre>
+      <p>Buka: <strong>http://localhost:8000</strong></p>
+
+      <h3>17.3 Perintah Sering Dipakai</h3>
+      <pre><code># Reset database + seed ulang
+php artisan migrate:fresh --seed
+
+# Clear cache
+php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
+# Regenerate autoload
+composer dump-autoload
+
+# Lihat daftar route
+php artisan route:list
+
+# Cek koneksi database
+php artisan db:show</code></pre>
+    </section>
+
+    <!-- 18. AKUN -->
+    <section id="akun">
+      <h2><span class="num">18</span> Akun Demo</h2>
+      <table>
+        <tr><th>Role</th><th>Email</th><th>Password</th></tr>
+        <tr><td><strong>Admin</strong></td><td><code>admin@silacak.test</code></td><td><code>password</code></td></tr>
+      </table>
+
+      <div class="callout warning">
+        <strong>⚠️ Perhatian</strong>
+        Akun demo hanya untuk development. Ganti kredensial sebelum deploy ke staging/production.
+      </div>
+    </section>
+
+    <!-- 19. CHECKLIST -->
+    <section id="checklist">
+      <h2><span class="num">19</span> Checklist Portofolio BNSP</h2>
+
+      <h3>19.1 Bukti Artefak Fisik</h3>
+      <ul style="list-style: none; margin-left: 0;">
+        <li>☐ Repository Git dengan riwayat commit</li>
+        <li>☐ File migration database</li>
+        <li>☐ ERD diagram</li>
+        <li>☐ Laporan profiling (Debugbar)</li>
+        <li>☐ Unit test PHPUnit</li>
+        <li>☐ Feature test PHPUnit</li>
+        <li>☐ Laporan stress test Locust</li>
+        <li>☐ Berita Acara UAT</li>
+        <li>☐ User manual (non-teknis)</li>
+        <li>☐ Paket instalasi + checksum</li>
+        <li>☐ File <code>.env</code> per environment</li>
+        <li>☐ Analisis dampak perubahan</li>
+        <li>☐ Bukti alert notification</li>
+        <li>☐ Contoh log terstruktur</li>
+        <li>☐ Laporan audit keamanan</li>
+        <li>☐ Perhitungan DWDM</li>
+      </ul>
+
+      <h3>19.2 Checklist Sebelum Ujian</h3>
+      <ul style="list-style: none; margin-left: 0;">
+        <li>☐ Proyek lokal berjalan & MySQL terkoneksi</li>
+        <li>☐ Mampu demokan alur request MVC</li>
+        <li>☐ ERD dan migration foreign key lengkap</li>
+        <li>☐ Kode lolos PSR-12 / Pint</li>
+        <li>☐ Git log dengan pesan imperatif</li>
+        <li>☐ Laporan test PHPUnit & Locust tersedia</li>
+        <li>☐ Berita acara UAT & manual pengguna siap</li>
+        <li>☐ Bukti mitigasi keamanan SQLi & CSRF teruji</li>
+        <li>☐ <code>APP_DEBUG=false</code> di produksi</li>
+        <li>☐ <code>composer audit</code> bersih</li>
+      </ul>
+
+      <h3>19.3 Struktur Folder Portofolio</h3>
+      <div class="diagram">PORTOFOLIO_SENIOR_PROGRAMMER/
+├── 01-identitas.pdf
+├── 02-ringkasan-sistem.pdf
+├── 03-erd-dan-migration.pdf
+├── 04-model-relasi.pdf
+├── 05-guidelines-pint.pdf
+├── 06-halaman-daftar.pdf
+├── 07-git-log-review.pdf
+├── 08-profil-test-report.pdf
+├── 09-laporan-locust.pdf
+├── 10-uat-manual-env.pdf
+├── 11-log-alert-update.pdf
+├── 12-audit-keamanan.pdf
+└── link-repositori.txt</div>
+    </section>
+
+    <!-- FOOTER -->
+    <section style="background: var(--gray-900); color: #fff; text-align: center;">
+      <p style="color: #fff; font-size: 16px; font-style: italic;">
+        "Senior programmer bukan yang paling cepat mengetik kode,<br>
+        melainkan yang paling mengerti kapan menulis,<br>
+        kapan mengoptimasi, dan kapan memverifikasi."
+      </p>
+      <p style="color: #9ca3af; margin-top: 16px; font-size: 13px;">
+        Skema Sertifikasi Senior Programmer BNSP • Aplikasi Berbasis Laravel & MySQL<br>
+        <strong style="color: #fff;">SiLacak v1.0</strong> — PT Sinar Logistik Nusantara (fiktif)
+      </p>
+    </section>
+
+  </main>
+</div>
+
+<script>
+// Highlight active sidebar link on scroll
+document.addEventListener('DOMContentLoaded', () => {
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.sidebar nav a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 100;
+      if (window.pageYOffset >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
+
+  // Smooth scroll
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        window.scrollTo({
+          top: target.offsetTop - 20,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+});
+</script>
+
+</body>
+</html>
